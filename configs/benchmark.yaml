@@ -1,0 +1,5 @@
+# Monte Carlo benchmark configuration (mirrors CLI defaults).
+scenario: single-outlier   # see gnss_adjust.benchmark.SCENARIOS for choices
+runs: 200
+base_seed: 1000
+methods: [WLS, DIA-reject, DIA-inflate, Huber, Hampel]

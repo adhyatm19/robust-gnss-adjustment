@@ -1,0 +1,47 @@
+{
+  "seed": 42,
+  "true_outlier_baselines": [],
+  "injected_biases_m": {},
+  "methods": {
+    "WLS": {
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true,
+      "variance_factor": 0.7572179219530987,
+      "condition_number": 94.21789822186359,
+      "runtime_s": 0.0011381659714970738
+    },
+    "DIA-reject": {
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true,
+      "variance_factor": 0.7572179219530987,
+      "condition_number": 94.21789822186359,
+      "runtime_s": 0.0022518330079037696
+    },
+    "DIA-inflate": {
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true,
+      "variance_factor": 0.7572179219530987,
+      "condition_number": 94.21789822186359,
+      "runtime_s": 0.002074708027066663
+    },
+    "Huber": {
+      "flagged_baselines": [],
+      "iterations": 2,
+      "converged": true,
+      "variance_factor": 0.7572179219530987,
+      "condition_number": 94.21789822186359,
+      "runtime_s": 0.0022950420097913593
+    },
+    "Hampel": {
+      "flagged_baselines": [],
+      "iterations": 2,
+      "converged": true,
+      "variance_factor": 0.7572179219530987,
+      "condition_number": 94.21789822186359,
+      "runtime_s": 0.0020048329897690564
+    }
+  }
+}

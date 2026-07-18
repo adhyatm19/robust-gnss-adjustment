@@ -1,0 +1,17 @@
+# Deterministic demo experiment: one directional 3D outlier on baseline 3.
+seed: 42
+n_stations: 8
+n_baselines: 16
+noise:
+  a_mm: 5.0
+  b_ppm: 1.0
+  axis_scale: [1.0, 1.0, 1.8]
+outliers:
+  - baseline_id: 3
+    vector: [0.035, -0.025, 0.090]   # metres
+dia:
+  alpha_global: 0.05
+  alpha_local: 0.001
+robust:
+  huber_c: 1.5
+  hampel: [1.5, 3.5, 8.0]

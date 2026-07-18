@@ -1,0 +1,63 @@
+{
+  "seed": 42,
+  "true_outlier_baselines": [
+    3
+  ],
+  "injected_biases_m": {
+    "3": [
+      0.035,
+      -0.025,
+      0.09
+    ]
+  },
+  "methods": {
+    "WLS": {
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true,
+      "variance_factor": 2.8009365162948394,
+      "condition_number": 94.21789822186359,
+      "runtime_s": 0.0007567909779027104
+    },
+    "DIA-reject": {
+      "flagged_baselines": [
+        3
+      ],
+      "iterations": 2,
+      "converged": true,
+      "variance_factor": 0.7851440626178213,
+      "condition_number": 89.17062786190543,
+      "runtime_s": 0.003568624990293756
+    },
+    "DIA-inflate": {
+      "flagged_baselines": [
+        3
+      ],
+      "iterations": 2,
+      "converged": true,
+      "variance_factor": 0.7344218596046543,
+      "condition_number": 89.20816439970162,
+      "runtime_s": 0.003645499993581325
+    },
+    "Huber": {
+      "flagged_baselines": [
+        3
+      ],
+      "iterations": 9,
+      "converged": true,
+      "variance_factor": 1.6563262581947418,
+      "condition_number": 90.53634783611882,
+      "runtime_s": 0.006256166991079226
+    },
+    "Hampel": {
+      "flagged_baselines": [
+        3
+      ],
+      "iterations": 12,
+      "converged": true,
+      "variance_factor": 1.3377535639682165,
+      "condition_number": 89.97960823822126,
+      "runtime_s": 0.007673749991226941
+    }
+  }
+}

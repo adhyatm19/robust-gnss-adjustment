@@ -1,0 +1,5 @@
+{
+  "scenario": "single-outlier",
+  "runs": 100,
+  "base_seed": 1000
+}
