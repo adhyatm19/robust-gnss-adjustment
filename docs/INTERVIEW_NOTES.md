@@ -50,10 +50,17 @@ Add to the above:
    ~0 no matter how wrong it is — and must never be removed.
 4. **Robust IRLS** (2 min). Weight functions and tuning constants; the
    fixed-reference standardisation t_b = √(v_b'P⁰_bv_b/3)/σ and the
-   stability argument (I observed limit cycles when standardising against
-   the current weighted Q_v — down-weighting shrinks the outlier's own
-   statistic, so the weight oscillates; with the fixed reference the only
-   feedback is through the solution and separation is monotone). Weights
+   experiment that selected it: I tried three references and two of them
+   fail in opposite directions. The effective Q_v of the current weighted
+   solve gives a genuine limit cycle (down-weighting inflates the
+   observation's own covariance, shrinks its statistic, and the weight
+   climbs back — I recorded a period-8 cycle, 0 → 0.08 → 0.48 → … → 1 → 0);
+   the original-weight residual covariance Q⁰ − AQ_xA' gives an avalanche
+   (the reference under-states a down-weighted residual's dispersion, so
+   clean baselines collapse — ten of fifteen dragged below 0.5 in my
+   trace). The fixed observation weight P⁰ = (Q⁰)⁻¹ leaves feedback only
+   through the solution: monotone separation, no collateral damage.
+   Reproducible via `scripts/compare_standardizations.py`. Weights are
    recomputed from scratch each iteration, never compounded.
 5. **Results** (1.5 min). Walk the three headline tables in
    EXPERIMENTS.md: clean-data efficiency (identical solutions), the
@@ -132,6 +139,21 @@ against I; pseudoinverse + numerical rank for residual blocks;
 block-inverse of each 3×3 Q via Cholesky; eigenvalue flooring for random
 correlation matrices; explicit condition-number reporting; rank guards in
 both DIA and IRLS so no adaptation can silently destroy the network.
+
+**Why doesn't IRLS standardise against Q_v like DIA does?** Because DIA
+tests a *fixed* adjustment once, while IRLS feeds its statistic back into
+the next solve — and any reference that moves with the weights (or ignores
+how down-weighting changes the residual's dispersion) becomes part of the
+dynamics. I have the failure traces: the effective-Q_v reference limit-cycles
+(a rejected baseline's inflated covariance shrinks its own statistic and it
+re-enters at full weight), and the original-weight residual covariance
+Q⁰ − AQ_xA' avalanches (it under-states the dispersion of a down-weighted
+residual, so t is overestimated and clean baselines collapse one after
+another). The fixed observation weight P⁰ is the unique choice of the three
+where feedback runs only through the coordinate solution; that is why the
+classical equivalent-weight schemes (Danish, IGG) use exactly this form.
+`scripts/compare_standardizations.py` reproduces all three behaviours
+deterministically — worth running live if the interviewer pushes on it.
 
 ## Likely interviewer questions
 

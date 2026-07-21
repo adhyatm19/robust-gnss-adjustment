@@ -106,15 +106,22 @@ def _block_t_values(
     current weighted solve couples the statistic to the weights themselves
     (down-weighting an observation inflates its effective covariance and
     shrinks its own statistic), which produces limit cycles in the IRLS
-    iteration. With a fixed reference the only feedback runs through the
-    coordinate solution: down-weighting an outlier moves the solution toward
-    the clean observations, which *grows* the outlier's residual and
-    *shrinks* the clean residuals — a monotone separation that converges.
-    This is the classic equivalent-weight practice (Danish method, IGG
-    schemes). The price is slight conservatism for high-redundancy baselines
+    iteration. The other fixed candidate, the original-weight residual
+    covariance ``Q0 - A Qx A'``, fails in the opposite direction: it
+    subtracts the redundancy term and therefore under-states the dispersion
+    of a down-weighted observation's residual, overestimating t and
+    avalanching clean baselines toward zero weight. With the fixed
+    observation weight ``P0`` the only feedback runs through the coordinate
+    solution: down-weighting an outlier moves the solution toward the clean
+    observations, which *grows* the outlier's residual and *shrinks* the
+    clean residuals — a monotone separation that converges. This is the
+    classic equivalent-weight practice (Danish method, IGG schemes); both
+    failure modes are reproduced by ``scripts/compare_standardizations.py``.
+    The price is slight conservatism for high-redundancy baselines
     (Var(v_b) <= Q0_b), which the robust scale options can absorb. The
     rigorous ``Qv``-standardised statistics remain available in the DIA
-    pipeline (:mod:`gnss_adjust.diagnostics`).
+    pipeline (:mod:`gnss_adjust.diagnostics`), which tests a *fixed*
+    adjustment rather than iterating on its own output.
     """
     t: dict[int, float] = {}
     for k, obs in enumerate(observations):

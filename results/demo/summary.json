@@ -9,7 +9,7 @@
       "converged": true,
       "variance_factor": 0.7572179219530987,
       "condition_number": 94.21789822186359,
-      "runtime_s": 0.0011381659714970738
+      "runtime_s": 0.003022249962668866
     },
     "DIA-reject": {
       "flagged_baselines": [],
@@ -17,7 +17,7 @@
       "converged": true,
       "variance_factor": 0.7572179219530987,
       "condition_number": 94.21789822186359,
-      "runtime_s": 0.0022518330079037696
+      "runtime_s": 0.0030272919684648514
     },
     "DIA-inflate": {
       "flagged_baselines": [],
@@ -25,7 +25,7 @@
       "converged": true,
       "variance_factor": 0.7572179219530987,
       "condition_number": 94.21789822186359,
-      "runtime_s": 0.002074708027066663
+      "runtime_s": 0.002073250012472272
     },
     "Huber": {
       "flagged_baselines": [],
@@ -33,7 +33,7 @@
       "converged": true,
       "variance_factor": 0.7572179219530987,
       "condition_number": 94.21789822186359,
-      "runtime_s": 0.0022950420097913593
+      "runtime_s": 0.0019604580011218786
     },
     "Hampel": {
       "flagged_baselines": [],
@@ -41,7 +41,7 @@
       "converged": true,
       "variance_factor": 0.7572179219530987,
       "condition_number": 94.21789822186359,
-      "runtime_s": 0.0020048329897690564
+      "runtime_s": 0.0019243750139139593
     }
   }
 }

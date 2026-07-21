@@ -1,5 +1,7 @@
 {
+  "command": "benchmark",
   "scenario": "single-outlier",
   "runs": 100,
-  "base_seed": 1000
+  "seed": 1000,
+  "output": "results/benchmark_single_outlier"
 }

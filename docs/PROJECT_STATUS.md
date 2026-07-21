@@ -48,6 +48,10 @@ recorded experiment.
   runnable; not part of the recorded headline experiments
 - MAD and a-posteriori robust scale options: implemented with safeguards;
   the recorded experiments all use the a-priori scale
+- `scripts/compare_standardizations.py`: deterministic reproduction of the
+  three IRLS standardization schemes evaluated during development (limit
+  cycle / avalanche / shipped fixed-P⁰); runs and produces the documented
+  behaviour, but its output has no automated test assertions
 
 ## Known behavioural caveats (documented, by design or observed)
 

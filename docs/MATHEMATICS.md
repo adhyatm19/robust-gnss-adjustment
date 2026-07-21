@@ -137,17 +137,40 @@ $$
 where $P^0_b$ is the **original** weight block. Multipliers are recomputed
 from scratch each iteration (never compounded).
 
-**Why the fixed reference $P^0_b$?** Standardising against the residual
-covariance of the current *weighted* solve couples the statistic to the
-weights: down-weighting inflates the observation's effective covariance,
-shrinks its own statistic, and the weight oscillates (limit cycles observed
-experimentally in this project). With a fixed reference, feedback runs only
-through the coordinate solution — rejecting an outlier moves the solution
-toward the clean data, growing the outlier's residual and shrinking the
-others', a monotone separation. This matches classical equivalent-weight
-practice (Danish method, IGG schemes). The trade-off — mild conservatism for
-high-redundancy baselines since $\operatorname{Var}(v_b) \preceq Q^0_b$ — is
-absorbed by the robust scale options.
+**Why the fixed reference $P^0_b$?** Three candidate references were tried
+during development; they must not be conflated, because they fail in
+opposite directions. Run `python scripts/compare_standardizations.py` to
+reproduce every claim below.
+
+- **Scheme A — effective residual covariance** $Q_{v,bb}$ of the current
+  *weighted* solve (the reference DIA correctly uses for its one-shot
+  tests). Inside an IRLS loop it couples the statistic to the weights:
+  down-weighting an observation inflates its effective covariance
+  ($\sim Q^0_b/w$) and shrinks its own statistic, so the weight recovers —
+  *negative* feedback strong enough to overshoot. Observed result: a
+  period-8 limit cycle on a deterministic test case (gross baseline weight
+  visiting $0 \to 0.08 \to 0.48 \to \dots \to 1 \to 0$), including with a
+  predicted-covariance branch for near-zero weights.
+- **Scheme B — fixed original-weight residual covariance**
+  $Q^0_b - A_b Q_{\hat x} A_b^\top$. This subtracts the redundancy term, so
+  for a down-weighted observation the reference is *smaller* than the actual
+  dispersion of its residual; $t_b$ is overestimated, the weight drops
+  further, the residual grows — *positive* feedback. Observed result: on a
+  redundant network with one 0.5 m outlier, ten clean baselines were dragged
+  below $w = 0.5$ and Huber failed to converge.
+- **Scheme C — fixed observation weight $P^0_b = (Q^0_b)^{-1}$ (shipped).**
+  The reference is constant and bounds the residual dispersion of fully
+  weighted observations from above, so feedback runs only through the
+  coordinate solution: rejecting an outlier moves the solution toward the
+  clean data, growing the outlier's residual and shrinking the others' — a
+  monotone separation that converges with no collateral down-weighting.
+
+Scheme C matches classical equivalent-weight practice (Danish method, IGG
+schemes). The trade-off — mild conservatism for high-redundancy baselines
+since $\operatorname{Var}(v_b) \preceq Q^0_b$ — is absorbed by the robust
+scale options. The rigorous $Q_v$-based statistics (Scheme A's reference)
+remain exactly where they belong: in the DIA identification tests, which
+evaluate a *fixed* adjustment rather than iterating on their own output.
 
 ### Weight functions
 
