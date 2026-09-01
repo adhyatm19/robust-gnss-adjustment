@@ -22,6 +22,11 @@ recorded experiment.
   3D block tests with numerical-rank df, reject and inflate adaptation,
   complete audit trail, rank guard (planted-outlier identification test,
   audit-trail test, bridge-baseline rank-guard test)
+- Specific Direction (SD): `P Q_v P` reliability matrix, stable score from
+  the repository residual convention, solve-based 3D bias estimate, maximizing
+  unit direction, SD/3D statistics and critical values, Bonferroni option,
+  untestable rank-deficient blocks, reject/correct snooping audit trail, and
+  numerical SD-to-3D elimination equivalence (12 focused tests)
 - Robust IRLS: Huber and Hampel weight functions (validated against closed
   forms), fixed-reference block standardisation, prior/MAD/a-posteriori
   scale options, non-compounded weights (tested), convergence histories,
@@ -52,6 +57,11 @@ recorded experiment.
   three IRLS standardization schemes evaluated during development (limit
   cycle / avalanche / shipped fixed-P⁰); runs and produces the documented
   behaviour, but its output has no automated test assertions
+- SD experiment scripts: deterministic seed-42 case study, magnitude and
+  sphere-orientation sweeps, multi-network equivalence verification, and a
+  shared-receiver/session antenna-height-style proxy. Core identities are
+  tested; plot appearance and large-run Monte Carlo conclusions remain
+  experiment-level evidence.
 
 ## Known behavioural caveats (documented, by design or observed)
 
@@ -64,6 +74,9 @@ recorded experiment.
 - Two mutually contradictory observations of a leaf station are
   statistically undecidable; the robust estimator reports both at weight 0
   rather than guessing
+- The preliminary antenna-height experiment has block-diagonal baseline
+  covariance and a local-up proxy; unlike the paper's real/session network it
+  does not model cross-baseline session covariance or raw GNSS processing.
 
 ## Future work (NOT implemented)
 
@@ -71,7 +84,7 @@ recorded experiment.
 - Minimally constrained / free-network (inner-constraint) adjustment
 - Cross-correlated simultaneously observed baselines (session-level Q_l)
 - Recursive / sequential adjustment
-- Specific-direction (1-D) outlier tests; outlier-pair hypotheses
+- Multiple-outlier SD hypotheses; directional covariance adaptation
 - Integration with existing / indigenous GNSS processing software
 
 ## Explicit assumptions

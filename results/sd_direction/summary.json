@@ -1,0 +1,10 @@
+{
+  "runs": 200,
+  "magnitude_sigma": 20.0,
+  "correct_detection_rate": 0.965,
+  "target_significance_rate": 0.995,
+  "median_angular_error_deg": 4.1733711922586,
+  "p90_angular_error_deg": 9.176022968308798,
+  "maximum_angular_error_deg": 15.48415733326858,
+  "maximum_identity_error": 1.1368683772161603e-13
+}

@@ -1,6 +1,6 @@
 # Robust GNSS Baseline Network Adjustment
 
-**Weighted Least Squares, DIA Outlier Detection, and Robust M-Estimation**
+**Weighted Least Squares, DIA, Specific-Direction Detection, and Robust M-Estimation**
 
 A Python research prototype that adjusts a redundant 3D GNSS baseline network and
 benchmarks how classical and robust estimation methods behave when observations
@@ -30,6 +30,9 @@ exist:
 * **Statistical testing (DIA)** — detect that something is wrong (global
   chi-square test), identify which observation is wrong (local w-tests /
   3D block tests), and adapt (remove or down-weight it), iteratively.
+* **Specific Direction (SD)** — identify the 3D baseline whose reliability
+  statistic is largest, estimate its complete gross-error vector, and expose
+  the spatial direction along which the local test statistic is maximized.
 * **Robust M-estimation** — replace the quadratic loss with one that grows
   more slowly for large residuals, implemented as iteratively reweighted
   least squares (IRLS) with Huber or Hampel weight functions.
@@ -90,6 +93,21 @@ and the datum station.
   no candidate exceeds the local threshold, a maximum number of adaptations
   is reached, or removal would disconnect the network / exhaust redundancy
   (rank guard). A complete audit trail is kept; nothing is deleted silently.
+
+### Specific-direction (SD) baseline test
+
+For the paper's reliability matrix `P_bar = P Q_v P`, baseline `i` uses its
+3x3 diagonal block and score `g_i`. With this project's residual convention,
+the same score is evaluated stably as `g_i = -(Pv)_i`. The implementation
+solves `P_bar_ii d_hat_i = g_i` (no explicit inverse), then reports
+`u_i* = d_hat_i / ||d_hat_i||`, `|w_i*| = sqrt(d_hat_i^T P_bar_ii d_hat_i) /
+sigma0`, and `T_i = |w_i*|^2 / 3`. Thus `|w_i*|^2 = 3 T_i` and the known-prior
+critical values are `sqrt(chi2_3)` and `chi2_3/3`. A rank-deficient block is
+reported as untestable rather than assigned a fabricated direction. Sequential
+SD snooping uses the existing global test and rank guard, rejects the selected
+whole baseline, and keeps an audit trail. A separate helper verifies that
+eliminating the estimated one-direction nuisance gives the same coordinates as
+full 3D baseline elimination, to floating-point precision.
 
 ### Robust M-estimation (IRLS on 3D blocks)
 
@@ -155,7 +173,7 @@ produced by running the code** (see `scripts/generate_demo_results.py`).
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[app,dev]"          # package + streamlit + pytest
-pytest                                # 35 deterministic tests
+pytest                                # 49 deterministic tests
 ```
 
 Requires Python ≥ 3.11. Core dependencies: NumPy, SciPy, Pandas, Matplotlib,
@@ -179,6 +197,13 @@ python -m gnss_adjust benchmark --runs 200 --scenario single-outlier \
 # sweeps
 python -m gnss_adjust benchmark --scenario magnitude-sweep --runs 80 --output results/mag
 python -m gnss_adjust benchmark --scenario contamination-sweep --runs 50 --output results/cont
+
+# paper-faithful SD case study and focused experiments
+python scripts/run_sd_case_study.py
+python scripts/verify_sd_equivalence.py --networks 100
+python scripts/benchmark_sd_magnitude.py --runs 50
+python scripts/benchmark_sd_direction.py --runs 200
+python scripts/benchmark_sd_antenna_height.py --runs 100
 ```
 
 Scenarios: `clean`, `single-small-outlier`, `single-outlier`,
@@ -219,15 +244,16 @@ robust-gnss-adjustment/
 │   ├── wls.py                 # Cholesky-based WLS solver
 │   ├── diagnostics.py         # global test, w-tests, 3D block tests
 │   ├── dia.py                 # DIA loop with audit trail & rank guard
+│   ├── sd_outlier/            # reliability, SD core, detection & snooping
 │   ├── robust.py              # Huber/Hampel IRLS
 │   ├── metrics.py             # coordinate & detection metrics
 │   ├── benchmark.py           # scenarios, Monte Carlo, sweeps
 │   ├── plotting.py            # matplotlib figures
 │   ├── io.py                  # CSV/JSON/YAML I/O & validation
 │   └── cli.py                 # argparse CLI
-├── tests/                     # 35 deterministic pytest tests
+├── tests/                     # 49 deterministic pytest tests
 ├── examples/                  # CSV input format examples
-├── scripts/generate_demo_results.py
+├── scripts/                   # common demos plus SD case studies/benchmarks
 └── docs/                      # MATHEMATICS, EXPERIMENTS, INTERVIEW_NOTES, PROJECT_STATUS
 ```
 
@@ -244,7 +270,8 @@ and graph connectivity.
 * Baseline vectors are treated as *given* — no raw observation processing,
   no ambiguity resolution, no troposphere/ionosphere modelling.
 * Baselines are assumed mutually uncorrelated (block-diagonal `Q_l`);
-  simultaneously observed sessions violate this.
+  simultaneously observed sessions violate this. The antenna-height-style SD
+  experiment is therefore a preliminary synthetic session proxy.
 * Static network, single fixed-station datum (no free-network /
   minimally-constrained variants yet).
 * Synthetic ground truth only; tuning constants and significance levels
@@ -255,7 +282,7 @@ and graph connectivity.
 Real GNSS baseline datasets; RINEX preprocessing; ambiguity resolution;
 minimally constrained and free-network (inner-constraint) adjustment;
 correlated simultaneously-observed baselines; recursive/sequential
-adjustment; specific-direction (one-dimensional) outlier tests; integration
+adjustment; multiple-outlier SD hypotheses; integration
 with existing GNSS processing software.
 
 ## 13. References
@@ -274,3 +301,5 @@ with existing GNSS processing software.
    Linear Models.* 2nd ed., Springer.
 7. Strang, G. & Borre, K. (1997). *Linear Algebra, Geodesy, and GPS.*
    Wellesley-Cambridge Press.
+8. Nie, Y., Yang, L., & Shen, Y. (2019). Specific Direction-Based Outlier
+   Detection Approach for GNSS Vector Networks. *Sensors*, 19, 1836.

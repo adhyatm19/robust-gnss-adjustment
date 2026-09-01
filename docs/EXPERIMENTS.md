@@ -5,9 +5,14 @@ hand-edited. Regenerate everything with:
 
 ```bash
 python scripts/generate_demo_results.py
+python scripts/run_sd_case_study.py
+python scripts/verify_sd_equivalence.py --networks 100
+python scripts/benchmark_sd_magnitude.py --runs 50
+python scripts/benchmark_sd_direction.py --runs 200
+python scripts/benchmark_sd_antenna_height.py --runs 100
 ```
 
-Environment: Python 3.13, macOS (arm64); package version 0.1.0; 35+ unit
+Environment: Python 3.13, macOS (arm64); package version 0.1.0; 49 unit
 tests passing at the commit that produced these results.
 
 Default network for all experiments: 8 stations, 16 baselines, station S00
@@ -141,11 +146,79 @@ can be removed from a 16-baseline network. Covariance inflation and the
 robust estimators, which act on all suspicious baselines simultaneously,
 hold up better.
 
-## 6. Plots
+## 6. Specific-direction experiments
+
+### Seed-42 directional case study
+
+Command: `python scripts/run_sd_case_study.py`
+
+| quantity | result |
+|---|---:|
+| planted / detected baseline | 3 / 3 |
+| injected vector [m] | (+0.035, -0.025, +0.090) |
+| estimated vector [m] | (+0.02762, -0.02431, +0.10582) |
+| injected / estimated magnitude [m] | 0.09975 / 0.11204 |
+| sign-invariant direction error | 6.736 degrees |
+| SD statistic / critical value | 7.535 / 4.033 |
+| 3D statistic / critical value | 18.927 / 5.422 |
+| `abs(SD^2 - 3T)` | 7.11e-15 |
+| SD vs full-3D maximum coordinate difference | 4.55e-12 m |
+
+The SD result identifies the planted baseline, recovers its mostly vertical
+direction, and verifies both paper identities. The estimated bias need not
+equal the planted vector exactly because it contains the network's realized
+Gaussian observation noise as well as the gross error.
+
+### Multi-network equivalence verification
+
+Across 100 networks, 1593 full-rank baseline blocks were tested and seven
+zero-redundancy blocks were honestly marked untestable. The maximum
+`abs(SD^2 - 3T)` was 2.27e-13; the maximum direction/vector cross-product
+norm was 2.40e-17. In 100 coordinate comparisons, directional elimination
+and full-3D elimination differed by at most 5.13e-11 m, passing the configured
+1e-8 m tolerance.
+
+### Magnitude and orientation recovery
+
+The fixed-direction magnitude sweep used 50 runs per point. Direction
+recovery becomes useful at the same scale at which the target becomes
+statistically detectable:
+
+| magnitude [sigma] | correct detection | target significant | median angle | 90th-percentile angle |
+|---:|---:|---:|---:|---:|
+| 1 | 0.00 | 0.00 | 44.99 deg | 74.25 deg |
+| 3 | 0.08 | 0.08 | 26.76 deg | 72.35 deg |
+| 5 | 0.40 | 0.40 | 14.78 deg | 41.71 deg |
+| 8 | 0.88 | 0.90 | 9.26 deg | 19.90 deg |
+| 10 | 0.98 | 1.00 | 7.28 deg | 15.06 deg |
+| 20 | 0.98 | 1.00 | 3.69 deg | 7.05 deg |
+| 50 | 1.00 | 1.00 | 1.37 deg | 2.94 deg |
+
+At fixed 20-sigma magnitude across 200 random sphere orientations, correct
+localization was 96.5%, the target was significant in 99.5%, median angular
+error was 4.17 degrees, and the 90th percentile was 9.18 degrees. This shows
+small but real geometry/noise dependence rather than perfect isotropy.
+
+### Antenna-height-style session proxy
+
+The preliminary experiment applies an 8 cm local-up proxy to up to two
+S06 baselines in one synthetic session while other S06 sessions remain clean.
+Across 100 runs it obtained 40.5% mean affected-baseline recall, 13.85 degrees
+median affected direction error, and 1.13 non-affected significant baselines
+per run. This is deliberately **not presented as a reproduction of the
+paper's antenna result**: the current generator has block-diagonal baseline
+covariance, random local geometry, and no session-level cross-correlation or
+raw GNSS solution model. The weak result is recorded as evidence that the
+paper's antenna application requires a dedicated correlated session model,
+not as evidence against the validated core SD algebra.
+
+## 7. Plots
 
 Each results directory contains the PNGs referenced in the README:
 `network.png`, `true_vs_estimated.png`, `coordinate_errors.png`,
 `residual_norms.png`, `standardized_residuals.png`, `group_statistics.png`,
 `robust_weights.png`, plus `monte_carlo_box.png`,
 `rmse_vs_magnitude.png`, `f1_vs_magnitude.png`, and
-`rmse_vs_contamination.png` in the benchmark directories.
+`rmse_vs_contamination.png` in the benchmark directories. The SD directories
+add `direction_recovery_vs_magnitude.png`, `orientation_sweep.png`, and
+`incident_direction_error.png` with their raw and aggregate CSV/JSON data.

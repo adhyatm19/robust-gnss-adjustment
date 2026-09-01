@@ -1,0 +1,24 @@
+{
+  "seed": 42,
+  "planted_baseline": 3,
+  "detected_baseline": 3,
+  "injected_vector_m": [
+    0.035,
+    -0.025,
+    0.09
+  ],
+  "estimated_vector_m": [
+    0.02762005030289577,
+    -0.024312362642425787,
+    0.10582353105892628
+  ],
+  "injected_magnitude_m": 0.09974968671630002,
+  "estimated_magnitude_m": 0.11203828757068206,
+  "angular_direction_error_deg": 6.7364663540177245,
+  "sd_statistic": 7.535371817960814,
+  "critical_sd": 4.0331422236561565,
+  "statistic_3d": 18.927276144972687,
+  "critical_3d": 5.422078732079377,
+  "sd_squared_minus_3t": 7.105427357601002e-15,
+  "sd_vs_full_3d_max_coordinate_difference_m": 4.547473508864641e-12
+}
