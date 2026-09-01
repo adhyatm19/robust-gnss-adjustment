@@ -122,7 +122,34 @@ threshold; the maximum number of adaptations is reached; or a removal would
 disconnect the network or exhaust redundancy (**rank guard**). All decisions
 are recorded in an audit trail.
 
-## 5. Robust M-estimation (IRLS)
+## 5. Specific-direction baseline detection
+
+Following Nie, Yang, and Shen (2019), define the reliability matrix
+$\bar P=P Q_v P$. For baseline $i$, let $\bar P_{ij}$ be its 3x3 blocks and
+$g_i=\sum_j\bar P_{ij}l_j$. Under this repository's convention
+$v=A\hat x-l=-Q_vPl$, the same score is $g_i=-(Pv)_i$; the implementation uses
+this latter form to avoid cancellation from kilometre-scale coordinates.
+
+The 3D observation-bias estimate is obtained by solving
+$\bar P_{ii}\hat d_i=g_i$ rather than forming $\bar P_{ii}^{-1}$. Its
+maximizing specific direction is $u_i^*=\hat d_i/\|\hat d_i\|$. With known
+a-priori variance factor, the two equivalent local statistics are
+$|w_i^*|=\sqrt{\hat d_i^T\bar P_{ii}\hat d_i}/\sigma_0$ and
+$T_i=\hat d_i^T\bar P_{ii}\hat d_i/(3\sigma_0^2)$, so
+$|w_i^*|^2=3T_i$. Under the null, $|w_i^*|^2\sim\chi_3^2$; therefore the SD
+critical value is $\sqrt{\chi^2_{1-\alpha}(3)}$ and the equivalent 3D critical
+value is $\chi^2_{1-\alpha}(3)/3$.
+
+The paper assumes $\bar P_{ii}$ is positive definite. The code checks its
+numerical rank: a full-rank block is solved with a symmetric
+positive-definite solver, while a rank-deficient/zero-redundancy baseline is
+reported as untestable. Once significant, rejecting the whole baseline is the
+paper's sequential data-snooping action. For equivalence verification, the
+code can instead subtract $\hat d_i=u_i^*\|\hat d_i\|$ and readjust; its
+coordinates equal those obtained by eliminating all three baseline
+components to floating-point precision.
+
+## 6. Robust M-estimation (IRLS)
 
 Instead of minimising $\sum_b v_b^\top P_b v_b$, a robust M-estimator
 minimises $\sum_b \rho(t_b)$ for a slower-growing loss $\rho$. The IRLS
@@ -214,7 +241,7 @@ weight 0. Two mutually contradictory observations of a leaf station are
 statistically undecidable — the estimator then reports both at weight 0 with
 `converged` reflecting the actual outcome, rather than silently choosing one.
 
-## 6. Synthetic covariance construction
+## 7. Synthetic covariance construction
 
 Baseline sigma from the standard GNSS specification, with careful unit
 handling ($a$ in mm, $b$ in ppm, $L$ and the result in metres):

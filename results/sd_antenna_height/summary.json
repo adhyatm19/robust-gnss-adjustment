@@ -1,0 +1,15 @@
+{
+  "runs": 100,
+  "affected_station": "S06",
+  "height_error_m": 0.08,
+  "local_up_proxy": [
+    0.3500481349280564,
+    0.20002750567317512,
+    0.9151258384547762
+  ],
+  "mean_affected_session_baselines_per_run": 1.99,
+  "mean_affected_session_recall": 0.405,
+  "mean_off_station_significant_per_run": 1.13,
+  "median_incident_angular_error_deg": 13.852926458139148,
+  "scope_note": "two-baseline receiver/session error with a local-up proxy; not a physical ECEF antenna model"
+}

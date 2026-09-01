@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gnss-adjust"
 version = "0.1.0"
-description = "Robust GNSS baseline network adjustment: WLS, DIA outlier detection, and robust M-estimation (synthetic baseline-level research prototype)"
+description = "Robust GNSS baseline network adjustment: WLS, DIA, specific-direction outlier detection, and robust M-estimation"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }

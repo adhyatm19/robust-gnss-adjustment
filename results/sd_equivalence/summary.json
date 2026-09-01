@@ -1,0 +1,12 @@
+{
+  "networks": 100,
+  "testable_baseline_blocks": 1593,
+  "untestable_baseline_blocks": 7,
+  "coordinate_equivalence_cases": 100,
+  "max_abs_sd_squared_minus_3t": 2.2737367544323206e-13,
+  "max_direction_parallel_cross_norm": 2.4037033579794548e-17,
+  "max_sd_vs_full_3d_coordinate_difference_m": 5.1257172039609985e-11,
+  "identity_tolerance": 1e-10,
+  "coordinate_tolerance_m": 1e-08,
+  "passed": true
+}
