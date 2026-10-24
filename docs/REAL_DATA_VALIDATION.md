@@ -6,6 +6,20 @@ was produced by the scripts named next to it and can be regenerated with
 `scripts/reproduce_real_data.sh` (≈5 min after the 126 MB download).
 Companion notes on conventions and statistics: [`REAL_DATA_MATH_NOTES.md`](REAL_DATA_MATH_NOTES.md).
 
+> **Audit notice (supersedes parts of this report).** An independent
+> scientific audit ([SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md)) corrected
+> several statements below: (1) the Experiment B "false-positive rates" up to
+> 0.22 are misidentifications caused by a non-identifiable baseline pair in the
+> 2-session geometry, not Type I errors (test size is correct, audit M1/V1);
+> (2) Experiments B/C used one fixed noise realisation — statistical claims now
+> rest on resampled-noise simulations (M2/V2); (3) results on the quiet base
+> network are best-case; on the anomaly-containing network the method ranking
+> changes (M3); robust and DIA detection were not compared at equal size (M4);
+> (4) the day-005/006 VILL anomalies are elevation-dependent (they nearly
+> vanish with a 20° mask) and only the rejection of baseline 8 is robust (M5);
+> (5) the CEBR offset is located in the processing chain, not the reference
+> (M7). A clean-checkout race condition was found and fixed (C1).
+
 > **Three kinds of evidence are kept strictly apart in this report.**
 > (1) *Unmodified real data* (Experiment A, calibration, loop misclosures,
 > EPN comparison): no ground-truth outlier labels exist, so **no detection

@@ -5,6 +5,13 @@ adjustment (National Centre for Geodesy, IIT Kanpur). Details and every number:
 [`REAL_DATA_VALIDATION.md`](REAL_DATA_VALIDATION.md); conventions and
 statistics: [`REAL_DATA_MATH_NOTES.md`](REAL_DATA_MATH_NOTES.md).
 
+> **Audit notice.** Read together with [SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md),
+> [SUPERVISOR_SUMMARY.md](SUPERVISOR_SUMMARY.md) and
+> [NEXT_RESEARCH_DIRECTION.md](NEXT_RESEARCH_DIRECTION.md). The audit corrects
+> the interpretation of the Experiment B error rates, the VILL anomalies and
+> the method ranking, and recommends improving the stochastic model *before*
+> the station-session hypothesis of §8.
+
 ## 1. What was completed
 
 * A reproducible **RINEX → RTKLIB → baseline + covariance → network** pipeline
@@ -21,7 +28,7 @@ statistics: [`REAL_DATA_MATH_NOTES.md`](REAL_DATA_MATH_NOTES.md).
   6 days of 24 h data; evaluation network 9 baselines, r = 18, 6 cross-session
   loops; plus quiet-day, weaker-geometry and deliberately-trivial variants.
 * **Experiments A–D** (unmodified data, controlled injections, SD validation,
-  reprocessed antenna-height errors), 9 figures, 101 automated tests.
+  reprocessed antenna-height errors), 9 figures, 102 automated tests.
 * Repository hygiene (staged separately): generated `.pyc`, `egg-info`,
   `.DS_Store` untracked; local files kept.
 
@@ -71,7 +78,7 @@ statistics: [`REAL_DATA_MATH_NOTES.md`](REAL_DATA_MATH_NOTES.md).
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[rinex,dev]"
-pytest                                   # 101 tests (RTKLIB tests skip if not built)
+pytest                                   # 102 tests (RTKLIB tests skip if not built)
 scripts/build_rtklib.sh                  # pinned RTKLIB into tools/ (needs git, gcc, make)
 scripts/reproduce_real_data.sh python    # everything: validation, download (126 MB),
                                          # processing, networks, Experiments A-D, figures

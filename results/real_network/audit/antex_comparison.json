@@ -1,0 +1,20 @@
+{
+ "igs20_2287": [
+  {
+   "serial": "",
+   "method_line": "ROBOT               Geo++ GmbH               5    09-JUN-19",
+   "neu_G01_G02": [
+    "0.10     -0.16    124.81"
+   ]
+  }
+ ],
+ "epn_20": [
+  {
+   "serial": "",
+   "method_line": "ROBOT               Geo++ GmbH               5    09-JUN-19",
+   "neu_G01_G02": [
+    "0.10     -0.16    124.81"
+   ]
+  }
+ ]
+}

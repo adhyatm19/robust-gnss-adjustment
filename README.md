@@ -17,7 +17,8 @@ are contaminated by gross errors and non-Gaussian noise.
 > software, and **not** integrated into any production system. Real-data
 > results, their verification and limitations:
 > [docs/REAL_DATA_VALIDATION.md](docs/REAL_DATA_VALIDATION.md); summary for
-> researchers: [docs/RESEARCH_HANDOFF.md](docs/RESEARCH_HANDOFF.md).
+> researchers: [docs/RESEARCH_HANDOFF.md](docs/RESEARCH_HANDOFF.md);
+> critical audit: [docs/SCIENTIFIC_AUDIT.md](docs/SCIENTIFIC_AUDIT.md).
 
 ---
 
@@ -176,7 +177,7 @@ produced by running the code** (see `scripts/generate_demo_results.py`).
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[app,rinex,dev]"    # package + streamlit + hatanaka + pytest
-pytest                                # 101 deterministic tests (RTKLIB ones skip if not built)
+pytest                                # 102 deterministic tests (RTKLIB ones skip if not built)
 scripts/build_rtklib.sh               # optional: pinned RTKLIB into tools/ (git, gcc, make)
 ```
 
@@ -268,7 +269,7 @@ robust-gnss-adjustment/
 │   ├── gnss/                  # RINEX metadata, RTKLIB runner, .pos parser, frames,
 │   │                          # SINEX, satellite screening, calibration, network assembly
 │   └── cli.py                 # argparse CLI (demo, benchmark, adjust)
-├── tests/                     # 101 deterministic pytest tests (+ real GSI test data)
+├── tests/                     # 102 deterministic pytest tests (+ real GSI test data)
 ├── third_party/rtklib/        # output-precision patch for the pinned RTKLIB
 ├── configs/real_data/         # dataset manifest + RTKLIB processing configuration
 ├── examples/                  # CSV input format examples

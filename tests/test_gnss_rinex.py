@@ -72,3 +72,27 @@ def test_decompressed_names(name, expected):
 def test_non_observation_file_rejected():
     with pytest.raises(RinexError):
         read_obs_meta(DATA / "07590920.05n")
+
+
+def _prepare_worker(args):
+    src, work = args
+    out = prepare_rinex(src, work)
+    return read_obs_meta(out).n_epochs
+
+
+def test_prepare_is_safe_under_concurrency(tmp_path):
+    """Regression: parallel workers decompressing one file must never read a partial copy."""
+    import concurrent.futures as cf
+    src_dir = tmp_path / "archive"
+    src_dir.mkdir()
+    # ~15 MB, like a real 24 h file, so that a non-atomic write is observable
+    text = (DATA / "30400920.05o").read_text()
+    head, body = text.split("END OF HEADER\n", 1)
+    big = head + "END OF HEADER\n" + body * 200
+    gz = src_dir / "30400920.05o.gz"
+    gz.write_bytes(gzip.compress(big.encode(), compresslevel=1))
+    work = tmp_path / "work"
+    with cf.ProcessPoolExecutor(max_workers=8) as ex:
+        n = list(ex.map(_prepare_worker, [(gz, work)] * 32))
+    assert n == [120 * 200] * 32
+    assert sorted(p.name for p in work.iterdir()) == ["30400920.05o"]  # no leftovers

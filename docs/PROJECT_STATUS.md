@@ -69,6 +69,8 @@ recorded experiment.
 
 ## Real-data extension: results that are interpretation, not validation
 
+(See `docs/SCIENTIFIC_AUDIT.md` for the audited status of every claim.)
+
 - Experiment A flags on unmodified data (no ground truth; corroborated only
   by repeatability evidence)
 - The CEBR ≈ 11 mm East offset and VILL day-005/006 height anomalies

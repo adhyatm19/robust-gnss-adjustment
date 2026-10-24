@@ -14,7 +14,9 @@ import gzip
 import hashlib
 import logging
 import math
+import os
 import re
+import tempfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
@@ -109,7 +111,17 @@ def prepare_rinex(src: str | Path, workdir: str | Path) -> Path:
         data = hatanaka.decompress(data)
     elif name.endswith(".gz"):
         data = gzip.decompress(data)
-    out.write_bytes(data)
+    # Atomic publish: concurrent workers decompressing the same file must never
+    # see a partially written output (a race observed in a clean checkout).
+    fd, tmp = tempfile.mkstemp(dir=workdir, prefix=f".{out.name}.", suffix=".part")
+    try:
+        with os.fdopen(fd, "wb") as fh:
+            fh.write(data)
+        os.replace(tmp, out)
+    except BaseException:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+        raise
     return out
 
 

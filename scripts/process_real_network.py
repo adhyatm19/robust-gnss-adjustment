@@ -112,7 +112,10 @@ def main() -> None:
         for strat, params in strategies.items():
             p = dict(params)
             only = p.pop("pairs", None)
-            p["extra"] = {**p.get("extra", {}), "pos1-exclsats": " ".join(excluded)}
+            # automatic screening (default) or a fixed list for sensitivity analysis
+            fixed_excl = p.pop("fixed_exclusions", None)
+            excl = excluded if fixed_excl is None else sorted(fixed_excl)
+            p["extra"] = {**p.get("extra", {}), "pos1-exclsats": " ".join(excl)}
             cfg = ProcessingConfig(**{**p, "nav_systems": tuple(p["nav_systems"]),
                                       "antex_file": str(antex)})
             for base, rover in pairs:

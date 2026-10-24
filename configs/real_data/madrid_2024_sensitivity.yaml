@@ -1,0 +1,39 @@
+# Processing-model sensitivity analysis for the scientific audit (docs/SCIENTIFIC_AUDIT.md).
+# Same data and common settings as madrid_2024_processing.yaml; each strategy
+# changes ONE modelling choice of the main iono-free float solution.
+dataset: configs/real_data/madrid_2024.yaml
+rtklib_variant: hp
+processing:
+  pos_mode: static
+  frequency: l1+2
+  solution_type: forward
+  solstatic: all
+  elevation_mask_deg: 10.0
+  nav_systems: [G]
+  ephemeris: precise
+  tide_correction: "on"
+  ar_threshold: 3.0
+  sat_pcv: true
+  rcv_pcv: true
+  phase_windup: true
+  iono: dual-freq
+  tropo: est-ztd
+  ar_mode: "off"
+  extra:
+    misc-rnxopt1: "-GL1C -GL2W"
+    misc-rnxopt2: "-GL1C -GL2W"
+strategies:
+  ref: {}                                  # = main network solution
+  ztd_gradients: {tropo: est-ztdgrad}      # tropospheric horizontal gradients
+  mask15: {elevation_mask_deg: 15.0}
+  mask20: {elevation_mask_deg: 20.0}
+  no_rcv_pcv: {rcv_pcv: false}             # receiver antenna calibration off
+  keep_g03_g08: {fixed_exclusions: [G01, G27]}   # day-005/006 extra exclusions undone
+  broadcast_orbits: {ephemeris: brdc, sat_pcv: false}
+pairs:
+  - [MADR, CEBR]
+  - [MADR, VILL]
+  - [CEBR, VILL]
+  - [VILL, YEBE]
+  - [MADR, YEBE]
+  - [CEBR, YEBE]

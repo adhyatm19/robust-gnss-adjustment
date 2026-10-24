@@ -1,0 +1,68 @@
+[
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/BEK0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/BEK0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 777188,
+  "sha256": "e5c2b367c3634467fe9a8aa4801739721f32a336efbe4556c1d225907de44ccc"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/BEV0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/BEV0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 1336210,
+  "sha256": "decd81f384af0ae50743a1e4cfb12bdd7f2fc2e5670f66259d414aae23d980ae"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/BKG0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/BKG0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 1048069,
+  "sha256": "aa04b33505576bbf71f352f48d323c5057973dc04eb04c95abd9e22648073359"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/COD0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/COD0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 77018,
+  "sha256": "12feccdff7498544eb15a635ef8b4982d32ae25b8d6d0ab1878b1e5630a11f99"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/GFZ0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/GFZ0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 631490,
+  "sha256": "529812e37488b222e34ae0dddb91bdd34d0599f080f564cd1d5ec7fe62b32918"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/IGE0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/IGE0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 450688,
+  "sha256": "8b34c56a89e3aa77a07926e5b02038d1e783b4a104c5cf76f59133c1fc93c372"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/LPT0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/LPT0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 168055,
+  "sha256": "bbb578bffbba6dc025427cdad044193027bcb22b1b33dba0b5385f3729ec7f34"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/NKG0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/NKG0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 515842,
+  "sha256": "ac7269db6c5e035ce0815c6df26c5ad3af810c25392f645fcbc4546e42f46d17"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/RGA0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/RGA0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 198508,
+  "sha256": "4cd7c3867567437a4b6faed9dc9885ca0e1e72318d6fb1ed7b9e95e22a43ea6a"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/WUT0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "file": "data/raw/audit_epn_ac/WUT0EPNFIN_20233650000_07D_07D_SOL.SNX.gz",
+  "bytes": 995041,
+  "sha256": "892265b072dfdf5ed6f743437e012055a00b5dd5ba766da713e3eeef6940b852"
+ },
+ {
+  "url": "https://igs.bkg.bund.de/root_ftp/EUREF/station/general/epn_20.atx",
+  "file": "data/raw/audit_epn_ac/epn_20.atx",
+  "bytes": 61573968,
+  "sha256": "85281fcf8921c011ae16d8a814abbb63b9e963a891e194fa4bdf05aba1aca87c"
+ }
+]
