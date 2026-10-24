@@ -6,3 +6,8 @@ venv/
 .env
 .idea/
 .vscode/
+*.egg-info/
+# local RTKLIB builds and downloaded GNSS data (see docs/REAL_DATA_VALIDATION.md)
+tools/
+data/raw/
+data/work/
