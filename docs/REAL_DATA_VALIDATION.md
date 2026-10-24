@@ -6,19 +6,11 @@ was produced by the scripts named next to it and can be regenerated with
 `scripts/reproduce_real_data.sh` (≈5 min after the 126 MB download).
 Companion notes on conventions and statistics: [`REAL_DATA_MATH_NOTES.md`](REAL_DATA_MATH_NOTES.md).
 
-> **Audit notice (supersedes parts of this report).** An independent
-> scientific audit ([SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md)) corrected
-> several statements below: (1) the Experiment B "false-positive rates" up to
-> 0.22 are misidentifications caused by a non-identifiable baseline pair in the
-> 2-session geometry, not Type I errors (test size is correct, audit M1/V1);
-> (2) Experiments B/C used one fixed noise realisation — statistical claims now
-> rest on resampled-noise simulations (M2/V2); (3) results on the quiet base
-> network are best-case; on the anomaly-containing network the method ranking
-> changes (M3); robust and DIA detection were not compared at equal size (M4);
-> (4) the day-005/006 VILL anomalies are elevation-dependent (they nearly
-> vanish with a 20° mask) and only the rejection of baseline 8 is robust (M5);
-> (5) the CEBR offset is located in the processing chain, not the reference
-> (M7). A clean-checkout race condition was found and fixed (C1).
+> **Audit status.** This report incorporates the corrections of
+> [SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md) (approved). Error types are
+> reported separately (false alarm, detection, correct identification,
+> misidentification); probabilities come from resampled-noise simulations;
+> fixed-noise and anomaly-containing results are labelled as conditional.
 
 > **Three kinds of evidence are kept strictly apart in this report.**
 > (1) *Unmodified real data* (Experiment A, calibration, loop misclosures,
@@ -168,16 +160,21 @@ Findings (figure `formal_vs_empirical_sigma.png`, `repeatability_by_day.png`):
   ratios E 0.77, N 0.33, U 1.25).
 * **Non-stationarity** (pooled 3D factor k², `calibration.json`):
   days 001–003 **k² = 0.73** (95 % CI 0.48–1.24, 36 dof);
-  days 004–006 **k² = 5.17** (3.42–8.72). Days 005/006 contain session-level
-  vertical anomalies at VILL (all VILL baselines agree: ≈ −14 mm on 005,
-  ≈ +12 … +19 mm on 006). A calibration from quiet days does not transfer.
+  days 004–006 **k² = 5.17** (3.42–8.72); F = 7.0, p ≈ 5×10⁻⁸, almost all in
+  Up (1.2 → 12.5). Days 005/006 show an **elevation-dependent
+  processing/model inconsistency** involving VILL (and YEBE on 006): it nearly
+  vanishes with a 20° mask (k² 1.47). Not a confirmed station displacement.
+  A calibration from quiet days does not transfer.
 * **A station-level systematic at CEBR**: every CEBR baseline places CEBR
   ≈ +10 … +16 mm **East** of EPN, on all six days, with 1–2 mm scatter
   (and in both strategies). It is consistent across sessions, so it cancels in
   every loop and is invisible to repeatability and to network testing; only
-  the external reference reveals it. Cause **not established** (candidates:
-  antenna calibration — EPN may use individual calibrations — local
-  multipath, or the reference realisation). It is reported, not corrected.
+  the external reference reveals it. **Unresolved systematic discrepancy:**
+  the reference is consistent across three EPN analysis centres (±0.7 mm);
+  EPN and this pipeline use the same SEPCHOKE_B3E6 calibration; the offset is
+  insensitive to orbits, mask, antenna model and satellite selection but
+  sensitive to the tracked L2 signal (+4.4 mm with L2L). Reported, not
+  corrected, and not identified as a physical error.
 
 ## 4. Network construction and cross-baseline correlation
 
@@ -229,78 +226,109 @@ Rank(A) = 9 = number of parameters, the network is connected, cond(N) is reporte
 ## 5. Experiment A — unmodified real data (`results/real_network/experiment_A/`)
 
 `python -m gnss_adjust adjust --network results/real_network/networks/main_formal --reference … --output …`
-(WLS, DIA-reject, DIA-inflate, Huber, Hampel, SD-reject; α_global 0.05,
-α_local 0.001; Huber c 1.5; Hampel 1.5/3.5/8; a-priori σ₀² = 1). Baselines
-1–3 are day 004, 4–6 day 005, 7–9 day 006.
+(α_global 0.05, α_local 0.001, Huber c 1.5, Hampel 1.5/3.5/8, σ₀² = 1).
+Baselines 1–3 are day 004, 4–6 day 005, 7–9 day 006. There is **no ground
+truth**: nothing here is scored as correct or incorrect detection.
 
 | method | T = v'Pv | critical | σ̂₀² | flagged | iterations |
 |---|---|---|---|---|---|
 | WLS | 79.29 | 28.87 | 4.41 | – | 1 |
-| DIA-reject | 20.87 | 21.03 | 1.74 | 8, 9 | 3 |
+| DIA-reject = SD-reject | 20.87 | 21.03 | 1.74 | 8, 9 | 3 |
 | DIA-inflate | 21.85 | 28.87 | 1.21 | 8, 9 | 3 |
-| Huber | 54.10 | 28.87 | 3.01 | 8 (w = 0.42) | 15 |
-| Hampel | 53.72 | 28.87 | 2.98 | 8 (w = 0.41) | 20 |
-| SD-reject | 20.87 | 21.03 | 1.74 | 8, 9 | 3 |
+| Huber / Hampel | 54.1 / 53.7 | 28.87 | 3.0 | 8 (w ≈ 0.42) | 15 / 20 |
 
-WLS local statistics (`experimentA_statistics.png`): baseline 8 (CEBR→VILL,
-day 006) T_b = 39.8 and baseline 4 (CEBR→VILL, day 005) T_b = 27.5 exceed
-χ²₀.₉₉₉(3) = 16.3; SD bias directions are 79° and 84° in elevation (±8–10°
-predicted), i.e. predominantly **vertical**, matching the VILL height anomalies
-seen independently in the repeatability data. DIA rejects 8, then 9 — not 4:
-days 005 and 006 pull VILL in opposite vertical directions, and sequential
-rejection resolves the conflict in favour of one side. Local redundancy per
-baseline is 1.6–2.2 (of 3).
+What the data support:
 
-With the hold-out-calibrated covariance (×0.73) DIA/SD additionally reject
-baseline 1; Huber/Hampel are unchanged. The quiet-day network passes the
-global test (T = 12.37 < 28.87, σ̂₀² = 0.69) and nothing is flagged.
+* The day-004–006 network is **inconsistent with the stochastic model**
+  (global test rejected; independently recomputed, audit V4).
+* Baseline 8 (CEBR→VILL, day 006) is the most inconsistent observation
+  (T_b = 39.8; SD direction 79° elevation). This identification is stable
+  under a hypothetical within-session correlation model; **the second
+  rejection (9) is not** (audit M5).
+* **Interpretation.** The day-005/006 inconsistency is an
+  **elevation-dependent processing/model inconsistency**: it survives changes
+  of orbits, satellite screening, antenna model and troposphere gradients,
+  but nearly disappears with a 20° elevation mask (implied VILL height
+  deviation +20.4 → +4.2 mm on day 006; `audit_sensitivity/`). It is **not a
+  confirmed station displacement** and not shown to be a gross baseline error;
+  plausible causes are low-elevation multipath/obstruction or troposphere
+  mismodelling, none of which is established.
+* Coordinates vs EPN: CEBR ≈ +11.5 mm East for every method (§3.1, §9).
 
-**Interpretation, not proof:** the flags coincide with session-level vertical
-anomalies at VILL that are corroborated by independent evidence (all VILL
-baselines of those days, day-to-day repeatability). There is no ground truth,
-so no precision/recall is computed. The flags are also *not* single-baseline
-gross errors in the classical sense: a station-session effect touches several
-baselines at once.
+The quiet-day network (001–003) passes the global test (12.37 < 28.87) and
+nothing is flagged.
 
-Coordinates relative to MADR vs EPN (`coordinate_comparison.png`): CEBR is
-≈ +11.4 … +11.9 mm East for every method (formal σ_E ≈ 2 mm; §3.1); VILL Up
-is +6.1 mm (WLS), +4.5 (Huber), −3.8 (DIA). No method removes the CEBR
-offset — none can, by construction.
+## 6. Experiments B — detection, identification and coordinate accuracy
 
-## 6. Experiment B — controlled injections (`scripts/real_injection_experiments.py`)
+Four quantities are reported separately throughout:
+**false alarm** (a flag when no outlier exists), **detection** (any flag when
+one baseline is contaminated), **correct identification** (exactly the
+contaminated baseline flagged) and **misidentification** (a different
+baseline flagged after a true outlier). Two noise designs are distinguished:
+*fixed-noise* (the one observed real realisation plus injected biases) and
+*resampled-noise* (formal-covariance noise drawn around the real-network
+solution, so truth is known and probabilities are estimable).
 
-**Controlled injections into real-data-derived baselines** (quiet network,
-formal covariance, one fixed realisation of the real noise). 40 trials per
-cell; magnitudes 5–80 mm; random / vertical / horizontal directions; 1 or 2
-contaminated baselines; geometries r = 18 and r = 9; 3360 contaminated
-networks × 6 methods. Detection F1 (one baseline, random direction, r = 18;
-`experimentB_f1.png`):
+### 6.1 False alarms under H₀ (resampled noise, `audit/audit_stats.json`)
 
-| magnitude [mm] | 5 | 10 | 15 | 20 | 30 | ≥50 |
-|---|---|---|---|---|---|---|
-| DIA-reject = SD-reject | 0.00 | 0.18 | 0.78 | 0.95 | 1.00 | 1.00 |
-| DIA-inflate | 0.00 | 0.18 | 0.78 | 0.95 | 1.00 | 1.00 |
-| Huber | 0.00 | 0.05 | 0.38 | 0.83 | 0.98 | 1.00 |
-| Hampel | 0.00 | 0.05 | 0.38 | 0.83 | 0.98 | 0.99–1.00 |
+2000 H₀ runs per geometry: global test rejects 0.046–0.050 (nominal 0.05);
+local 3D tests exceed 0.0000–0.0020 per baseline (nominal 0.001); DIA/SD
+flag a baseline in 0.35–0.6 % of runs; Huber/Hampel (weight < 0.5 rule) in
+0 %. **Test size is correct.**
 
-* **SD-reject and DIA-reject made identical decisions in all trials**, as
-  required by the identity |w*|² = T_b (§7). SD does not detect better.
-* Robust IRLS is less sensitive at 10–20 mm (fixed-Q₀ standardisation and
-  local redundancy ≈ 0.7 ⇒ effective threshold ≈ 1.2× nominal); Huber keeps a
-  residual bias (coordinate RMSE vs unmodified-data solution at 80 mm:
-  Huber 1.35 mm, Hampel 0.86, DIA 0.66, WLS 8.97).
-* False-positive rate (one outlier, random direction, r = 18) ≤ 0.006; maximum over all r = 18 cells 0.039, over all r = 9 cells 0.22 (mostly mis-localisation, below).
-* Vertical biases are harder than horizontal ones (F1 at 15 mm: up 0.18,
-  horizontal 0.75) — the formal vertical precision is weaker.
-* r = 9: detection degrades (F1 ≤ 0.88 even at 80 mm with one outlier). In
-  that network YEBE is connected only by baselines 3 (VILL→YEBE) and 6
-  (MADR→YEBE); an outlier on either is statistically confusable with the
-  other, and DIA rejects the wrong one (21 of the failing trials at 80 mm:
-  3↔6) — the documented "two observations of a near-leaf station"
-  undecidability, now on real geometry. With two outliers DIA-inflate is best
-  at large magnitudes.
-* Iterations/runtime (mean, one outlier, r = 18): DIA/SD 1.7 adjustments
-  (≈6.5 ms), Huber 5.8 (8.4 ms), Hampel 5.3 (7.9 ms).
+### 6.2 Size-matched comparison (resampled noise, `scripts/audit/fair_comparison.py`)
+
+Thresholds calibrated on 3000 H₀ runs (seed A) so that each method flags in
+1 % of H₀ runs (DIA/SD: max T_b > 16.4; Huber/Hampel: min weight < 0.71;
+r = 9: 15.1 / 0.83); evaluated on **disjoint** simulations (seed B): achieved
+false-alarm rate 0.93 % / 0.80 % / 0.80 % (r = 18), 0.90 % / 0.83 % / 0.83 %
+(r = 9). 300 single-outlier runs per cell, random direction (binomial SE ≲ 0.03):
+
+| geometry | mm | detection DIA/SD · Huber=Hampel | correct identification | misidentification |
+|---|---|---|---|---|
+| 3 sessions, r = 18 | 10 | 0.40 · 0.38 | 0.40 · 0.37 | 0.003 · 0.003 |
+| | 15 | 0.76 · 0.76 | 0.75 · 0.75 | 0.003 · 0.003 |
+| | 20 | 0.93 · 0.92 | 0.92 · 0.92 | 0.010 · 0.003 |
+| | ≥ 30 | 1.00 · 1.00 | 1.00 · 1.00 | 0.000 · 0.000 |
+| 2 sessions, r = 9 | 10 | 0.42 · 0.35 | 0.35 · 0.29 | 0.07 · 0.06 |
+| | 20 | 0.87 · 0.83 | 0.76 · 0.70 | 0.11 · 0.13 |
+| | 50 | 1.00 · 1.00 | 0.83 · 0.82 | 0.17 · 0.18 |
+
+* **At matched size, detection and identification are statistically
+  indistinguishable between DIA/SD and Huber/Hampel** on these geometries
+  (differences ≤ 0.07, mostly within 1–2 SE). The earlier statement that
+  robust IRLS is "less sensitive" was largely an artefact of the weight < 0.5
+  rule. Huber and Hampel make identical decisions because the calibrated
+  thresholds lie where their weight functions coincide. **No unconditional
+  ranking is claimed.**
+* **Coordinate accuracy** (RMSE of non-datum coordinates vs truth, standard
+  procedures, reported separately from detection): at 50 mm, r = 18 —
+  WLS 5.66, DIA-reject 1.81, Hampel 1.82, Huber 2.11 mm; at 10 mm all
+  ≈ 2.0 mm. Rejection or redescending weights remove the bias; Huber leaves
+  part of it.
+
+### 6.3 Statistically indistinguishable baselines (weak geometry)
+
+In the 2-session network station YEBE is connected only by baselines 3
+(VILL→YEBE) and 6 (MADR→YEBE). The canonical correlation between their local
+test statistics is **1.000**: an outlier on either produces the same residual
+pattern, so **no method can tell which baseline is wrong**. With outliers
+placed uniformly, the expected misidentification is 2/6 × ½ ≈ 0.17, which is
+what all methods show at large magnitudes (0.17–0.18). In the 3-session
+networks the largest canonical correlation is 0.52–0.54 (`audit_stats.json`).
+
+### 6.4 Fixed-noise and anomaly-containing conditions (conditional results)
+
+* *Fixed-noise, quiet network* (`experiment_BC/`, 40 trials/cell): conditional
+  on the one observed realisation; e.g. DIA correct identification at 10 mm
+  0.18 versus 0.40 with resampled noise. Use as illustration only.
+* *Fixed-noise, anomaly-containing network* (days 004–006,
+  `audit/injection_on_main_network.csv`): the natural day-006 inconsistencies
+  are flagged in addition to the injected bias (≈ 1.6 extra flags/run for
+  DIA, 0.5–0.8 for Huber/Hampel), so DIA's F1 against injected labels falls
+  from 1.00 to 0.57 at 50 mm (Huber 0.73, Hampel 0.80). These extra flags are
+  genuine data inconsistencies, not Type I errors, and F1 is not an
+  appropriate score in this condition. **Quiet-day results are best-case.**
 
 ## 7. Experiment C — specific-direction validation (`experimentC_sd_direction.png`)
 
@@ -308,9 +336,10 @@ networks × 6 methods. Detection F1 (one baseline, random direction, r = 18;
   an independently computed likelihood-ratio statistic agree to
   2×10⁻⁶ relative (absolute-ECEF parameterisation; to 10⁻⁷–10⁻¹⁵ on local
   synthetic networks, `tests/test_sd_dia_independent.py`).
-* **Detection follows theory**: empirical SD detection rates track the
-  non-central χ²(3) power at the injected non-centrality λ = dᵀP̄ᵢᵢd
-  (e.g. r = 18, 20 mm: 0.95 observed vs 0.965 predicted).
+* **Detection follows theory** (resampled noise, 3000 runs,
+  `audit/power_resampled.csv`): local SD/3D detection rates agree with the
+  non-central χ²(3) power at λ = dᵀP̄ᵢᵢd within binomial SE in every λ bin.
+  The fixed-noise figures below are conditional on one realisation.
 * **Optimised vs prespecified direction**: a 1D test along the *correct*
   prespecified direction (χ²(1), same λ) detects more often (10 mm: 0.45 vs
   0.35; 15 mm: 0.95 vs 0.85); a test along local *up* applied to random
@@ -321,8 +350,9 @@ networks × 6 methods. Detection F1 (one baseline, random direction, r = 18;
   angular error 33.5° (5 mm), 25.3° (10), 11.5° (15), 12.0° (20), 6.3° (30),
   3.3° (50), 2.3° (80); errors fall ≈ ∝ 1/|d|. Below the detection threshold
   the direction is essentially uninformative.
-* **Predicted direction uncertainty** from Cov(d̂) = σ₀²P̄ᵢᵢ⁻¹ is realistic:
-  median (actual angle / predicted σ) = 0.77.
+* **Predicted direction uncertainty** from Cov(d̂) = σ₀²P̄ᵢᵢ⁻¹ (largest
+  perpendicular σ): median (actual angle / predicted σ) = 0.77 — consistent
+  with a conservative bound; a calibrated coverage test is not yet done.
 * With two contaminated baselines the second bias contaminates the first
   direction estimate (results kept separate in `sd_direction_summary.csv`).
 
@@ -355,19 +385,25 @@ RTKLIB configuration and the affected baselines reprocessed.
 
 1. Four stations, six days, one region, GPS only, one processor (RTKLIB b34),
    iono-free float ambiguities for the main network.
-2. **No cross-baseline covariance** (block-diagonal model); within-session
-   correlation of shared-receiver baselines is ignored; between-session
-   independence is assumed but contradicted by the evaluation-day loops.
-3. Formal covariances are conditional on base coordinates (and integers);
-   vertical precision is optimistic; the calibration factor is non-stationary
-   and a scalar cannot fix the ENU shape mismatch.
-4. The CEBR East offset (≈ 11 mm) and day-005/006 VILL vertical anomalies are
-   **unexplained**; Experiment A flags are interpreted, not validated.
-5. EPN reference coordinates come from different software, antenna
-   calibrations (possibly individual) and processing strategy — differences
-   mix our errors and theirs.
-6. Injection experiments use one real noise realisation; detection rates are
-   conditional on it.
+2. **Missing cross-baseline covariance is an important statistical
+   limitation.** Single-baseline processing provides none; the
+   block-diagonal model ignores correlation between baselines sharing a
+   receiver in a session. A hypothetical correlation model leaves the global
+   result and the identification of baseline 8 intact but changes which
+   further baselines would be flagged, and makes the block-diagonal tests
+   conservative (audit M5, M8).
+3. Formal covariances are conditional (base position, integers), anisotropic
+   in error and non-stationary (k² 0.73 vs 5.17, F = 7.0); they are a
+   precision model on quiet days only.
+4. **VILL** (days 005/006): an elevation-dependent processing/model
+   inconsistency, not a confirmed station displacement.
+5. **CEBR**: an unresolved ≈ 12 mm East systematic discrepancy relative to a
+   reference that is internally consistent across EPN analysis centres; it
+   is insensitive to orbits, elevation mask, antenna model and satellite
+   selection but **sensitive to the tracked L2 signal** (+4.4 mm with L2L).
+   Not a conclusively identified physical error. It cancels in every loop and
+   is undetectable by all tests (zero redundancy for constant station errors).
+6. Fixed-noise experiments (B, C, D) are conditional on one realisation;
+   probabilities are taken from resampled-noise simulations.
 7. Absolute-ECEF parameterisation costs ≈10⁻⁶ relative precision in test
-   statistics (irrelevant for decisions; could be removed by reducing
-   observations to approximate coordinates).
+   statistics (irrelevant for decisions).

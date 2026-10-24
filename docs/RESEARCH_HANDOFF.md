@@ -5,12 +5,11 @@ adjustment (National Centre for Geodesy, IIT Kanpur). Details and every number:
 [`REAL_DATA_VALIDATION.md`](REAL_DATA_VALIDATION.md); conventions and
 statistics: [`REAL_DATA_MATH_NOTES.md`](REAL_DATA_MATH_NOTES.md).
 
-> **Audit notice.** Read together with [SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md),
-> [SUPERVISOR_SUMMARY.md](SUPERVISOR_SUMMARY.md) and
-> [NEXT_RESEARCH_DIRECTION.md](NEXT_RESEARCH_DIRECTION.md). The audit corrects
-> the interpretation of the Experiment B error rates, the VILL anomalies and
-> the method ranking, and recommends improving the stochastic model *before*
-> the station-session hypothesis of §8.
+> **Audit status.** Corrected according to the approved
+> [SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md). Supervisor-facing versions:
+> [RESEARCH_REPORT.md](RESEARCH_REPORT.md) and
+> [SUPERVISOR_SUMMARY.md](SUPERVISOR_SUMMARY.md); next steps:
+> [NEXT_RESEARCH_DIRECTION.md](NEXT_RESEARCH_DIRECTION.md).
 
 ## 1. What was completed
 
@@ -49,8 +48,12 @@ statistics: [`REAL_DATA_MATH_NOTES.md`](REAL_DATA_MATH_NOTES.md).
 ## 3. What remains incomplete
 
 * No cross-baseline covariance (needs multi-baseline/session processing).
-* The CEBR ≈ 11 mm East offset relative to EPN and the day-005/006 VILL height
-  anomalies are **unexplained**.
+* CEBR: an **unresolved** ≈ 12 mm East systematic discrepancy, sensitive to
+  the tracked L2 signal; the EPN reference is consistent across analysis
+  centres, so the discrepancy lies in the processing chain.
+* VILL (days 005/006): an **elevation-dependent processing/model
+  inconsistency** (nearly vanishes with a 20° mask), not a confirmed station
+  displacement.
 * One processor, GPS only, iono-free float ambiguities, four stations, one week.
 * Covariance calibration is a single scalar; the ENU shape mismatch and the
   non-stationarity (k² 0.73 vs 5.17) are reported, not modelled.
@@ -63,13 +66,19 @@ statistics: [`REAL_DATA_MATH_NOTES.md`](REAL_DATA_MATH_NOTES.md).
 * Formal vs empirical uncertainty, EPN comparison, loop misclosures.
 * **Experiment A**: all six methods on the unmodified real network.
   Flags are *interpreted* against independent evidence, never scored.
+* **Processing-model sensitivity** (252 reprocessed sessions) and the CEBR
+  signal and EPN analysis-centre checks (audit).
 * **Experiment D**: real RINEX reprocessed with a wrong antenna height
   (a physically meaningful, known error).
 
 ## 5. What is synthetic or only partly real
 
-* **Experiments B and C** inject artificial bias vectors into real-data-derived
-  baselines (known labels, artificial errors, one fixed noise realisation).
+* **Experiments B and C, fixed-noise**: artificial biases injected into the
+  real-data baselines (one noise realisation; conditional results), on the
+  quiet network (best case) and on the anomaly-containing network.
+* **Resampled-noise simulations on the real geometry** (audit): false alarms
+  under H₀, power, identifiability, and the size-matched method comparison
+  (`scripts/audit/`). Real geometry and formal covariance, simulated noise.
 * `tests/test_sd_dia_independent.py`, `test_gnss_network_tools.py` and the
   original benchmark suite (`EXPERIMENTS.md`) are synthetic.
 
@@ -93,6 +102,13 @@ python -m gnss_adjust adjust --network results/real_network/networks/main_formal
 python scripts/real_injection_experiments.py --trials 40
 python scripts/real_antenna_experiment.py
 python scripts/plot_real_results.py
+# audit (see SCIENTIFIC_AUDIT.md)
+python scripts/process_real_network.py configs/real_data/madrid_2024_sensitivity.yaml \
+    --output results/real_network/audit_sensitivity
+python scripts/audit/audit_real_data.py
+python scripts/audit/audit_resampled_noise.py
+python scripts/audit/audit_cross_covariance.py
+python scripts/audit/fair_comparison.py
 ```
 
 ## 7. Mathematical issues worth understanding
@@ -116,14 +132,23 @@ python scripts/plot_real_results.py
    optimised direction has a χ²(3) null; a prespecified direction has χ²(1)
    and more power only if it is right. The direction estimate has covariance
    $\sigma_0^2\bar P_{ii}^{-1}$, which was realistic in practice.
-5. **Model mismatch.** The anomalies found in real data act on a *station in
-   a session* (several baselines at once), not on one baseline. DIA rejected
-   two baselines for one physical cause (Experiment D) and resolved a
-   day-005/006 conflict by choosing a side (Experiment A).
-6. **Robust estimators on sparse networks** are less sensitive than DIA
-   because $E[t_b^2]=r_b/3$ with local redundancy $r_b$ ≈ 1–2.
-7. **Detectability limits are geometric**: two baselines controlling a
-   near-leaf station cannot be told apart (seen at r = 9).
+5. **Model mismatch.** A station-level error affects several baselines of a
+   session at once: DIA rejected two baselines for one antenna-height error
+   (Experiment D). Which further baselines DIA rejects on real data depends on
+   the (unknown) cross-baseline covariance (audit M5).
+6. **Compare methods at equal size.** With a weight < 0.5 rule, Huber/Hampel
+   look less sensitive than DIA; with thresholds calibrated to the same 1 %
+   false-alarm rate on independent simulations, detection and identification
+   are indistinguishable (audit fair comparison). The real differences are in
+   coordinate accuracy (Huber leaves residual bias). The mechanism
+   $E[t_b^2]=r_b/3$ still explains why the *default* robust thresholds are
+   conservative on sparse networks.
+7. **Identifiability is geometric**: in the 2-session network the local tests
+   of baselines 3 and 6 have canonical correlation 1.000 — no method can
+   say which is wrong (~17 % misidentification). Keep four error types apart:
+   false alarm, detection, correct identification, misidentification.
+8. **Conditional vs probabilistic statements**: fixed-noise injections are
+   conditional on one realisation; probabilities need resampled noise.
 
 ## 8. Next research question for discussion with Prof. Dikshit
 
@@ -134,25 +159,27 @@ covariance — identify and explain the real anomalies better than
 single-baseline DIA/SD, and how does its minimal detectable bias depend on the
 session design?**
 
-Why this one: it is directly motivated by what the real data showed (VILL
-day 005/006; Experiment D, case D2), it uses only established testing theory
+Why this one: it is directly motivated by Experiment D (case D2) and by the
+multi-baseline nature of the day-006 inconsistency, it uses only established testing theory
 (alternative hypotheses through $C$, MDB/power from the non-centrality), and
 the pipeline already provides everything needed (session labels, verified
 statistics, reprocessing with known antenna-height errors as ground truth).
 A second, complementary question is the stochastic model: component-wise
-variance estimation and an explicit session-correlation model, since
-calibration — not the estimator — dominated the real-data behaviour.
+variance estimation, elevation-aware weighting and an explicit
+session-correlation model. The audit recommends doing this **first**
+(`NEXT_RESEARCH_DIRECTION.md` §5), because the stochastic model — not the
+estimator — dominated the real-data behaviour.
 
 ## 9. The most promising contribution emerging from this work
 
 Not a new estimator. What the results genuinely support is a **validated,
 reproducible real-data test bed** — with a verified covariance chain, labelled
-physical errors (antenna-height reprocessing) and documented natural
-anomalies — showing quantitatively that (a) the SD direction estimate gives
-correct and reliably uncertainty-quantified *physical interpretation*
+physical errors (antenna-height reprocessing) and documented real-data
+inconsistencies — showing quantitatively that (a) the SD direction estimate
+gives a correct, conservatively uncertainty-bounded *physical interpretation*
 (reprocessed antenna-height errors: SD direction within ≈2–15° of the vertical once detected) without any detection
-advantage over the equivalent 3D test, and (b) real anomalies are
-station-session effects that single-baseline outlier models represent
-poorly. Extending SD-style directional estimation to station-session
+advantage over the equivalent 3D test, and (b) on real data the stochastic
+model (elevation dependence, anisotropy, non-stationarity) and
+station-level effects matter more than the choice of estimator. Extending SD-style directional estimation to station-session
 hypotheses (§8) is the defensible next step; it should be presented as an
 application and validation of established theory, not as a new method.

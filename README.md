@@ -18,7 +18,8 @@ are contaminated by gross errors and non-Gaussian noise.
 > results, their verification and limitations:
 > [docs/REAL_DATA_VALIDATION.md](docs/REAL_DATA_VALIDATION.md); summary for
 > researchers: [docs/RESEARCH_HANDOFF.md](docs/RESEARCH_HANDOFF.md);
-> critical audit: [docs/SCIENTIFIC_AUDIT.md](docs/SCIENTIFIC_AUDIT.md).
+> critical audit: [docs/SCIENTIFIC_AUDIT.md](docs/SCIENTIFIC_AUDIT.md); supervisor
+> report: [docs/RESEARCH_REPORT.md](docs/RESEARCH_REPORT.md).
 
 ---
 
@@ -287,13 +288,21 @@ and graph connectivity.
 
 ## 11. Limitations
 
-* Raw observations are processed only through external RTKLIB; RTKLIB's
-  formal covariances are conditional and were found optimistic in height
-  (float) and 10–25× optimistic in σ (fixed) on real data.
-* Baselines are assumed mutually uncorrelated (block-diagonal `Q_l`):
-  single-baseline processing provides no cross-baseline covariance, and
-  simultaneously observed baselines violate the assumption.
+* Raw observations are processed only through external RTKLIB; its formal
+  covariances are conditional, anisotropically miscalibrated (height
+  optimistic for float, 10–25× optimistic in σ for fixed solutions) and
+  non-stationary on real data.
+* **No cross-baseline covariance**: the block-diagonal `Q_l` ignores
+  correlation between baselines sharing a receiver in a session — an
+  important statistical limitation that affects which baselines get flagged.
 * Real-data validation covers one 4-station network over 6 days (GPS only).
+  Two real-data effects are unresolved: an elevation-dependent
+  processing/model inconsistency (VILL, days 005/006) and a ≈ 12 mm
+  signal-sensitive systematic discrepancy at CEBR.
+* At equal false-alarm rates DIA/SD and Huber/Hampel detect and identify
+  outliers equally well on the tested geometries; they differ in coordinate
+  accuracy. No unconditional method ranking is claimed
+  (`docs/RESEARCH_REPORT.md`).
 * Static network, single fixed-station datum (no free-network /
   minimally-constrained variants yet).
 * Synthetic ground truth only; tuning constants and significance levels

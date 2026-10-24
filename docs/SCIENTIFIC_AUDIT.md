@@ -141,6 +141,11 @@ too strong or wrong (§3); they are superseded by this document.
 * **Correction.** Compare at matched size (calibrate the weight threshold to
   the same H₀ flag rate) or with ROC curves; keep the r_b/3 explanation as
   the mechanism, quantified separately.
+* **Resolution (finalisation).** `scripts/audit/fair_comparison.py`
+  calibrates all thresholds to a 1 % H₀ flag rate on 3000 simulations and
+  evaluates on disjoint ones (achieved 0.80–0.93 %): detection and
+  identification of DIA/SD and Huber = Hampel are indistinguishable within
+  sampling error; coordinate accuracy differs (`fair_comparison.csv`).
 
 ### M5 — Experiment A: the flagged day-006 baselines reflect an elevation-dependent effect, and the second DIA rejection depends on unknown cross-covariance
 

@@ -165,5 +165,10 @@ IRLS standardises with the fixed $P^0_b$ (see `MATHEMATICS.md` §6). Under H₀,
 $E[t_b^2]=\operatorname{tr}(Q_{v,bb}P^0_b)/3 = r_b/3$ (local redundancy
 number $r_b$ ∈ [0,3]). In the Madrid networks $r_b$ = 1.1–2.2, so a Huber
 constant $c$ acts like $c\sqrt{3/r_b}$ ≈ 1.2–1.6 $c$ in properly standardised
-units: the robust estimators are systematically **less sensitive** than DIA
-on sparse real networks, which Experiment B confirms.
+units: with their *default* tuning and the weight < 0.5 flag rule the robust
+estimators are conservative on sparse real networks. This is a property of
+the thresholds, not of the estimators: calibrated to the same false-alarm
+rate as DIA (independent simulations, `scripts/audit/fair_comparison.py`),
+their detection and identification rates are indistinguishable from DIA's
+on these geometries, while their coordinate accuracy differs (Huber retains
+part of a large bias; Hampel and rejection remove it).

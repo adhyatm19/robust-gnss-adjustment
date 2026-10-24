@@ -1,7 +1,7 @@
 # Robust Adjustment of GNSS Baseline Networks — From Synthetic Benchmarks to Real RINEX Data
 
 *Research summary for discussion with Prof. Onkar Dikshit, National Centre for Geodesy, IIT Kanpur.*
-*All figures are reproducible from the repository; details: `REAL_DATA_VALIDATION.md`, critical review: `SCIENTIFIC_AUDIT.md`.*
+*All figures are reproducible from the repository; full report: `RESEARCH_REPORT.md`; critical review: `SCIENTIFIC_AUDIT.md`.*
 
 ## 1. Problem
 
@@ -69,43 +69,57 @@ error?
 * The empirical variance factor is not stationary: 0.73 (days 001–003) vs
   5.17 (days 004–006), F = 7.0, p ≈ 5×10⁻⁸, almost entirely vertical. It
   largely disappears with a 20° elevation mask (1.47) — an
-  elevation-dependent modelling/environment effect at VILL/YEBE on days
-  005–006.
+  elevation-dependent processing/model inconsistency involving VILL (and
+  YEBE) on days 005–006, not a confirmed station displacement.
 * CEBR is ≈ 12 mm East of the EPN reference on all six days, under every
   processing variant tried; the reference itself is consistent across EPN
-  analysis centres (±0.7 mm). The offset is in our processing chain and
-  unexplained; it cancels in every loop and is invisible to all tests.
+  analysis centres (±0.7 mm). It is an unresolved systematic discrepancy in
+  the processing chain, sensitive to the tracked L2 signal (+4.4 mm with
+  L2L) — not a conclusively identified physical error; it cancels in every
+  loop and is invisible to all tests.
 
-**Outlier diagnosis.**
-* *Unmodified real data:* WLS fails the global test (79.3 vs 28.9);
-  DIA = SD reject baseline 8 (and, less robustly, 9) from day 006; Huber and
-  Hampel down-weight 8. The SD direction of 8 is ~79° elevation (mostly
-  vertical). These flags diagnose a model inconsistency; there is no ground
-  truth, so no accuracy is claimed. Under a hypothetical within-session
-  correlation model, only the identification of 8 is stable.
-* *Controlled injections into real-data baselines (resampled noise, 3-session
-  network):* correct identification by DIA/SD 0.38 / 0.73 / 0.91 / ~1.0 at
-  10 / 15 / 20 / ≥ 30 mm; Huber 0.15 / 0.53 / 0.80 / ≥ 0.98. On a weaker
-  2-session network one station is controlled by only two baselines, whose
-  tests are perfectly correlated (canonical correlation 1.0) — outliers there
-  are not identifiable, causing ~17 % misidentification.
-* *Realistic conditions matter:* repeating the injections on the
-  anomaly-containing days lowers DIA's F1 at 50 mm from 1.00 to 0.57, while
-  Huber/Hampel reach 0.73/0.80 — method rankings depend on whether the
-  "clean" data are actually clean.
+**Outlier diagnosis** (four error types kept apart: false alarm, detection,
+correct identification, misidentification).
+* *False alarms under H₀* (resampled noise on the real geometry): global
+  test 0.046–0.050 (nominal 0.05); DIA/SD flag a baseline in 0.35–0.6 % of
+  runs — the tests have their nominal size.
+* *Size-matched comparison* (thresholds calibrated to a 1 % false-alarm rate
+  on 3000 independent H₀ simulations; achieved 0.8–0.93 % on separate test
+  simulations; 3-session network): correct identification for DIA/SD and for
+  Huber = Hampel is 0.40 / 0.37 at 10 mm, 0.75 / 0.75 at 15 mm,
+  0.92 / 0.92 at 20 mm and 1.00 at ≥ 30 mm, with misidentification ≤ 1 %.
+  **At equal false-alarm rate the methods are statistically
+  indistinguishable in detection**; they differ in *coordinate accuracy*
+  (RMSE at 50 mm: WLS 5.7, Huber 2.1, Hampel 1.8, DIA 1.8 mm).
+* *Indistinguishable baselines:* in the 2-session network station YEBE is
+  controlled by baselines 3 and 6 only; their tests are perfectly correlated
+  (canonical correlation 1.000), so every method misidentifies ≈ 17 % of
+  large outliers there.
+* *Unmodified real data (no ground truth):* WLS fails the global test (79.3
+  vs 28.9); baseline 8 (day 006) is the most inconsistent observation
+  (stable under a hypothetical correlation model; further rejections are
+  not). The day-005/006 inconsistency is **elevation-dependent** — it nearly
+  vanishes with a 20° mask — i.e. a processing/model inconsistency, not a
+  confirmed station displacement.
+* *Conditional results:* injections into the one observed noise realisation
+  give lower and noisier numbers (DIA at 10 mm: 0.18 vs 0.40 resampled); on
+  the anomaly-containing days the natural inconsistencies are flagged in
+  addition, so F1 against injected labels falls (DIA 1.00 → 0.57 at 50 mm).
+  Quiet-day results are best-case.
 * *Physical errors:* reprocessing real RINEX with a wrong antenna height
-  (applied to ≤ 0.23 mm of the prediction) gives detection from 2–3 cm and an
-  SD direction within 2–15° of the vertical; a station-level error is
-  rejected as two unrelated baselines.
+  (applied to ≤ 0.23 mm of the prediction) is detected from 2–3 cm in the one
+  observed realisation, with SD direction within 2–15° of the vertical; a
+  station-level error is rejected as two separate baselines.
 
 ## 5. Limitations
 
 Four stations, six days, GPS only, one processor, float ambiguities for the
-main network; no cross-baseline covariance (single-baseline processing);
+main network; **no cross-baseline covariance** (single-baseline processing) —
+an important statistical limitation that affects which baselines are
+identified;
 formal covariances conditional on the base station and on correct
-ambiguities; robust-vs-DIA comparisons not yet at matched size; two
-unexplained real-data effects (CEBR offset, VILL elevation-dependent
-anomaly). Several of my earlier interpretations were corrected by the audit
+ambiguities; two unexplained real-data effects (CEBR, VILL); method
+comparisons hold for these geometries and the formal covariance only. Several of my earlier interpretations were corrected by the audit
 (misidentification reported as false positives; single-realisation
 statistics; over-interpretation of the VILL flags).
 
