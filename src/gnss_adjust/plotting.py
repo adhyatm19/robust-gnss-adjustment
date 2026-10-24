@@ -273,3 +273,57 @@ def plot_monte_carlo_box(
     ax.set_title(title)
     ax.grid(axis="y", alpha=0.3)
     return _save(fig, path)
+
+
+def plot_network_enu(
+    stations: list[Station],
+    observations: list[BaselineObservation],
+    flagged: set[int] | None = None,
+    path: str | Path | None = None,
+    title: str = "Baseline network (local East/North, km)",
+) -> plt.Figure:
+    """Map of an ECEF network in the local horizontal frame of its datum station.
+
+    Repeated baselines between the same pair (independent sessions) are
+    drawn with small perpendicular offsets so each one stays visible.
+    """
+    from .gnss import frames
+
+    flagged = flagged or set()
+    ref = next(s for s in stations if s.is_fixed).coords
+    rot = frames.local_rotation(ref)
+    en = {s.station_id: (rot @ (s.coords - ref))[:2] / 1e3 for s in stations}
+    fig, ax = plt.subplots(figsize=(7.5, 6.5))
+    seen: dict[frozenset, int] = {}
+    for o in observations:
+        key = frozenset((o.from_station, o.to_station))
+        k = seen.get(key, 0)
+        seen[key] = k + 1
+        p, q = en[o.from_station], en[o.to_station]
+        d = q - p
+        nrm = np.array([-d[1], d[0]]) / max(np.linalg.norm(d), 1e-9)
+        off = nrm * 0.25 * ((k + 1) // 2) * (1 if k % 2 else -1)
+        is_f = o.baseline_id in flagged
+        ax.plot([p[0] + off[0], q[0] + off[0]], [p[1] + off[1], q[1] + off[1]],
+                color=METHOD_COLORS["Hampel"] if is_f else "0.55",
+                lw=2.2 if is_f else 1.0, ls="--" if is_f else "-", zorder=1)
+        mid = 0.5 * (p + q) + off
+        ax.annotate(str(o.baseline_id), mid, fontsize=7, color="0.3")
+    for s in stations:
+        e, n = en[s.station_id]
+        ax.plot(e, n, "s" if s.is_fixed else "o", color="k" if s.is_fixed else METHOD_COLORS["WLS"],
+                ms=10 if s.is_fixed else 7, zorder=3)
+        ax.annotate(s.station_id, (e, n), textcoords="offset points", xytext=(6, 6), fontsize=9)
+    handles = [
+        plt.Line2D([], [], marker="s", color="k", ls="", label="datum (fixed) station"),
+        plt.Line2D([], [], marker="o", color=METHOD_COLORS["WLS"], ls="", label="estimated station"),
+        plt.Line2D([], [], color="0.55", label="baseline (one per session)"),
+        plt.Line2D([], [], color=METHOD_COLORS["Hampel"], lw=2.2, ls="--",
+                   label="flagged by any method"),
+    ]
+    ax.legend(handles=handles, loc="best", fontsize=8)
+    ax.set_xlabel("East [km]")
+    ax.set_ylabel("North [km]")
+    ax.set_title(title)
+    ax.set_aspect("equal", adjustable="datalim")
+    return _save(fig, path)

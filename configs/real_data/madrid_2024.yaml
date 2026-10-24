@@ -1,0 +1,30 @@
+# Real GNSS dataset: Madrid-area EPN/IGS stations, 2024-01-01..2024-01-06.
+# Fetched by scripts/fetch_real_data.py into data/raw/madrid_2024/ (gitignored);
+# every file is recorded with URL, size and SHA-256 in download_log.json.
+name: madrid_2024
+description: >
+  Four permanent EUREF Permanent Network (EPN) / IGS stations around Madrid,
+  Spain, with daily 30-s RINEX 3 observations. Reference coordinates from the
+  EPN combined weekly solution (an independent multi-analysis-centre product).
+archive: https://igs.bkg.bund.de/root_ftp      # BKG GNSS data centre (anonymous HTTPS)
+stations: [MADR, CEBR, VILL, YEBE]
+station_long_names:                            # RINEX 3 long-name prefix
+  MADR: MADR00ESP
+  CEBR: CEBR00ESP
+  VILL: VILL00ESP
+  YEBE: YEBE00ESP
+year: 2024
+days: [1, 2, 3, 4, 5, 6]                       # day of year; all inside GPS week 2295
+obs_template: "{long}_R_{year}{doy:03d}0000_01D_30S_MO.crx.gz"
+obs_dirs: ["IGS/obs/{year}/{doy:03d}", "EUREF/obs/{year}/{doy:03d}"]
+nav_template: "brdc{doy:03d}0.{yy:02d}n.gz"    # GPS broadcast ephemeris (RINEX 2)
+nav_dir: "IGS/BRDC/{year}/{doy:03d}"
+# IGS final orbits for each processing day and its neighbours (interpolation at day edges)
+orbit_template: "IGS0OPSFIN_{year}{doy:03d}0000_01D_15M_ORB.SP3.gz"
+orbit_dir: "IGS/products/{gpsweek}"
+orbit_days: [[2023, 365], [2024, 1], [2024, 2], [2024, 3], [2024, 4], [2024, 5], [2024, 6], [2024, 7]]
+antex:
+  url: "IGS/station/general/igs20_2287.atx"    # release valid for GPS week 2295
+reference_sinex:
+  url: "EUREF/products/2295/EUR0OPSSNX_20233650000_07D_07D_SOL.SNX.gz"
+  description: EPN combined weekly solution, GPS week 2295 (2023-12-31..2024-01-06)

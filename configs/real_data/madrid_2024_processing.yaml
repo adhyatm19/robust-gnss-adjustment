@@ -1,0 +1,51 @@
+# RTKLIB processing configuration for the Madrid 2024 network (scripts/process_real_network.py).
+#
+# Strategy choice was fixed a priori (not tuned against the EPN reference,
+# which is used for evaluation). Trial runs on 2024-001 showed that RTKLIB's
+# L1/L2 ambiguity resolution essentially fails beyond ~40 km on these data
+# (MADR->YEBE, 99 km: 1.8 % of epochs fixed with estimated slant ionosphere),
+# so the MAIN network uses one uniform model for every baseline:
+#   ionosphere-free linear combination, float ambiguities, estimated ZTD.
+# A SECONDARY regime processes the three short baselines (10-35 km) with
+# L1/L2 ambiguity resolution (broadcast ionosphere, Saastamoinen), only to
+# characterise fixed-solution formal covariances; it is not mixed into the
+# main network.
+dataset: configs/real_data/madrid_2024.yaml
+rtklib_variant: hp                  # output-precision build (see docs/REAL_DATA_VALIDATION.md)
+processing:                         # common settings
+  pos_mode: static
+  frequency: l1+2
+  solution_type: forward            # final forward epoch = all-data static estimate
+  solstatic: all                    # all epochs written for diagnostics; ONE (last) is used
+  elevation_mask_deg: 10.0
+  nav_systems: [G]                  # GPS only: mature RTKLIB support, L2W at every station
+  ephemeris: precise                # IGS final SP3 (IGS20), day and neighbours
+  tide_correction: "on"             # solid Earth tides
+  ar_threshold: 3.0
+  sat_pcv: true
+  rcv_pcv: true                     # igs20_2287.atx type-mean calibrations
+  phase_windup: true
+  extra:
+    misc-rnxopt1: "-GL1C -GL2W"     # identical GPS signals at rover ...
+    misc-rnxopt2: "-GL1C -GL2W"     # ... and base (avoid L2C/L2W quarter-cycle mixing)
+# Per-day satellite exclusions (bad SP3 clock or unhealthy broadcast) are added
+# automatically as pos1-exclsats and logged (gnss_adjust.gnss.satscreen).
+strategies:
+  iflc_float:                       # MAIN network
+    iono: dual-freq
+    tropo: est-ztd
+    ar_mode: "off"
+  l12_fixed_short:                  # SECONDARY: fixed solutions, short baselines only
+    iono: brdc
+    tropo: saas
+    ar_mode: continuous
+    pairs: [[MADR, CEBR], [MADR, VILL], [CEBR, VILL]]
+# Base (from-station) positions = EPN reference coordinates (RTKLIB holds them fixed;
+# their error enters the baseline only at second order, ~ L*|dX|/20000 km).
+pairs:                               # every station pair; base listed first
+  - [MADR, CEBR]
+  - [MADR, VILL]
+  - [CEBR, VILL]
+  - [VILL, YEBE]
+  - [MADR, YEBE]
+  - [CEBR, YEBE]

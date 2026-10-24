@@ -1,0 +1,7 @@
+baseline_id,session,from,to,strategy,status,fix_fraction,length_m,covariance_source,covariance_scale,covariance_label,rounding_sensitive
+1,2024001,MADR,CEBR,iflc_float,float,0.0,10384.987229627533,rtklib_formal_float32,1.0,formal,False
+2,2024001,MADR,VILL,iflc_float,float,0.0,25311.805519270456,rtklib_formal_float32,1.0,formal,False
+3,2024001,VILL,YEBE,iflc_float,float,0.0,73765.68192986549,rtklib_formal_float32,1.0,formal,False
+4,2024002,CEBR,VILL,iflc_float,float,0.0,35300.65427371427,rtklib_formal_float32,1.0,formal,False
+5,2024002,MADR,CEBR,iflc_float,float,0.0,10384.989221006128,rtklib_formal_float32,1.0,formal,False
+6,2024002,MADR,YEBE,iflc_float,float,0.0,99036.39022845826,rtklib_formal_float32,1.0,formal,False

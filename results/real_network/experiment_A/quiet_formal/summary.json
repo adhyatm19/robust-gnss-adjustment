@@ -1,0 +1,186 @@
+{
+  "local_frame": "ENU (ECEF rotated at each station)",
+  "datum_station": "MADR",
+  "n_stations": 4,
+  "n_baselines": 9,
+  "n_observations": 27,
+  "n_parameters": 9,
+  "rank_A": 9,
+  "degrees_of_freedom": 18,
+  "condition_number_N": 28.902382410358083,
+  "connected": true,
+  "sigma0_prior_sq": 1.0,
+  "settings": {
+    "dia": {
+      "alpha_global": 0.05,
+      "alpha_local": 0.001,
+      "alpha_baseline": 0.001,
+      "bonferroni": false,
+      "sigma0_prior_sq": 1.0,
+      "adaptation": "reject",
+      "inflation_factor": 100.0,
+      "max_adaptations": 10,
+      "min_redundancy": 1
+    },
+    "huber": {
+      "method": "huber",
+      "huber_c": 1.5,
+      "hampel_a": 1.5,
+      "hampel_b": 3.5,
+      "hampel_c": 8.0,
+      "scale": "prior",
+      "sigma0_prior_sq": 1.0,
+      "max_iterations": 50,
+      "coord_tol_m": 1e-06,
+      "weight_tol": 0.0001,
+      "min_scale": 0.001,
+      "downweight_threshold": 0.5,
+      "zero_weight_floor": 1e-06
+    },
+    "hampel": {
+      "method": "hampel",
+      "huber_c": 1.5,
+      "hampel_a": 1.5,
+      "hampel_b": 3.5,
+      "hampel_c": 8.0,
+      "scale": "prior",
+      "sigma0_prior_sq": 1.0,
+      "max_iterations": 50,
+      "coord_tol_m": 1e-06,
+      "weight_tol": 0.0001,
+      "min_scale": 0.001,
+      "downweight_threshold": 0.5,
+      "zero_weight_floor": 1e-06
+    },
+    "sd": {
+      "alpha_global": 0.05,
+      "alpha_local": 0.001,
+      "bonferroni": false,
+      "sigma0_prior_sq": 1.0,
+      "adaptation": "reject",
+      "max_adaptations": 10,
+      "min_redundancy": 1
+    }
+  },
+  "methods": {
+    "WLS": {
+      "global_statistic": 12.371047650421195,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": true,
+      "variance_factor": 0.6872804250233997,
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true
+    },
+    "DIA-reject": {
+      "global_statistic": 12.371047650421195,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": true,
+      "variance_factor": 0.6872804250233997,
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true,
+      "status": "clean"
+    },
+    "DIA-inflate": {
+      "global_statistic": 12.371047650421195,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": true,
+      "variance_factor": 0.6872804250233997,
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true,
+      "status": "clean"
+    },
+    "Huber": {
+      "global_statistic": 12.371047650421195,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": true,
+      "variance_factor": 0.6872804250233997,
+      "flagged_baselines": [],
+      "iterations": 2,
+      "converged": true,
+      "weights": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0,
+        "6": 1.0,
+        "7": 1.0,
+        "8": 1.0,
+        "9": 1.0
+      }
+    },
+    "Hampel": {
+      "global_statistic": 12.371047650421195,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": true,
+      "variance_factor": 0.6872804250233997,
+      "flagged_baselines": [],
+      "iterations": 2,
+      "converged": true,
+      "weights": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0,
+        "6": 1.0,
+        "7": 1.0,
+        "8": 1.0,
+        "9": 1.0
+      }
+    },
+    "SD-reject": {
+      "global_statistic": 12.371047650421195,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": true,
+      "variance_factor": 0.6872804250233997,
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true,
+      "status": "clean"
+    }
+  },
+  "sd_local_identified": null,
+  "sd_snooping_audit": [
+    {
+      "iteration": 0,
+      "global_statistic": 12.371047650421195,
+      "global_critical": 28.869299430392623,
+      "identified": null,
+      "statistic": null,
+      "critical": null,
+      "action": "stopped:global_test_passed"
+    }
+  ],
+  "dia_audit": {
+    "DIA-reject": [
+      {
+        "iteration": 0,
+        "global_statistic": 12.371047650421195,
+        "global_critical": 28.869299430392623,
+        "identified": null,
+        "statistic": null,
+        "action": "stopped:global_test_passed"
+      }
+    ],
+    "DIA-inflate": [
+      {
+        "iteration": 0,
+        "global_statistic": 12.371047650421195,
+        "global_critical": 28.869299430392623,
+        "identified": null,
+        "statistic": null,
+        "action": "stopped:global_test_passed"
+      }
+    ]
+  }
+}

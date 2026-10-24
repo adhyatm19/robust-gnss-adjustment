@@ -7,6 +7,9 @@ python -m gnss_adjust demo --seed 42 --method all --outlier-baseline 3 \\
     --outlier-vector 0.035 -0.025 0.090 --output results/directional_outlier
 python -m gnss_adjust benchmark --runs 200 --scenario single-outlier \\
     --output results/benchmark
+python -m gnss_adjust adjust --network results/real_network/network \\
+    --reference results/real_network/network/reference_coordinates.csv \\
+    --output results/real_network/experiment_A
 """
 
 from __future__ import annotations
@@ -188,6 +191,65 @@ def _add_benchmark_parser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--output", type=Path, required=True)
 
 
+def _add_adjust_parser(sub: argparse._SubParsersAction) -> None:
+    p = sub.add_parser("adjust", help="adjust a network given as CSV files (no simulation, "
+                                      "no ground truth) with every method")
+    p.add_argument("--network", type=Path, required=True,
+                   help="directory with stations.csv, baselines.csv, covariance_blocks.csv "
+                        "(optional baseline_metadata.csv)")
+    p.add_argument("--reference", type=Path, default=None,
+                   help="optional CSV station_id,x,y,z of independent reference coordinates")
+    p.add_argument("--sigma0-prior-sq", type=float, default=1.0,
+                   help="a-priori variance factor: true covariance = factor x supplied blocks")
+    p.add_argument("--alpha-global", type=float, default=0.05)
+    p.add_argument("--alpha-local", type=float, default=0.001)
+    p.add_argument("--bonferroni", action="store_true")
+    p.add_argument("--huber-c", type=float, default=1.5)
+    p.add_argument("--hampel-abc", type=float, nargs=3, default=(1.5, 3.5, 8.0),
+                   metavar=("A", "B", "C"))
+    p.add_argument("--title", default="Network adjustment")
+    p.add_argument("--output", type=Path, required=True)
+
+
+def _settings_from_args(args: argparse.Namespace) -> bm.MethodSettings:
+    settings = bm.MethodSettings()
+    settings.dia.alpha_global = args.alpha_global
+    settings.dia.alpha_local = args.alpha_local
+    settings.dia.alpha_baseline = args.alpha_local
+    settings.huber.huber_c = args.huber_c
+    a, b, c = args.hampel_abc
+    settings.hampel.hampel_a, settings.hampel.hampel_b, settings.hampel.hampel_c = a, b, c
+    if hasattr(args, "bonferroni"):
+        settings.dia.bonferroni = args.bonferroni
+    if hasattr(args, "sigma0_prior_sq"):
+        for cfg in (settings.dia, settings.huber, settings.hampel):
+            cfg.sigma0_prior_sq = args.sigma0_prior_sq
+    return settings
+
+
+def _run_adjust(args: argparse.Namespace) -> int:
+    from . import network_report as nr
+
+    net_dir: Path = args.network
+    stations, observations = gio.load_network_from_csv(
+        net_dir / "stations.csv", net_dir / "baselines.csv", net_dir / "covariance_blocks.csv")
+    meta_path = net_dir / "baseline_metadata.csv"
+    metadata = pd.read_csv(meta_path) if meta_path.exists() else None
+    reference = nr.read_reference_csv(args.reference) if args.reference else None
+    adj = nr.adjust_network(stations, observations, _settings_from_args(args),
+                            reference=reference, metadata=metadata)
+    preamble = [f"- network: `{net_dir}`",
+                f"- reference coordinates: `{args.reference}`" if args.reference else
+                "- reference coordinates: none", ""]
+    nr.write_outputs(adj, args.output, title=args.title, preamble=preamble)
+    rows = [{"method": n, "T": m["global_statistic"], "crit": m["global_critical"],
+             "sigma0_hat^2": m["variance_factor"], "flagged": m["flagged_baselines"]}
+            for n, m in adj.summary["methods"].items()]
+    print(pd.DataFrame(rows).to_string(index=False))
+    print(f"\nresults written to {args.output}")
+    return 0
+
+
 def _demo_config_from_args(args: argparse.Namespace) -> NetworkConfig:
     outliers: list[OutlierSpec] = []
     if args.outlier_baseline is not None:
@@ -214,11 +276,16 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="gnss_adjust",
         description="Robust GNSS baseline network adjustment "
-                    "(synthetic baseline-level research prototype)")
+                    "(baseline-level research prototype; synthetic benchmarks and "
+                    "RTKLIB-derived real networks)")
     sub = parser.add_subparsers(dest="command", required=True)
     _add_demo_parser(sub)
     _add_benchmark_parser(sub)
+    _add_adjust_parser(sub)
     args = parser.parse_args(argv)
+
+    if args.command == "adjust":
+        return _run_adjust(args)
 
     if args.command == "demo":
         cfg = _demo_config_from_args(args)

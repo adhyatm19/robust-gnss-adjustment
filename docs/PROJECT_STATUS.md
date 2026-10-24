@@ -42,6 +42,39 @@ recorded experiment.
   per-run CSV, aggregate CSV, JSON config/summary, PNG plots, Markdown
   report — all populated from real runs (docs/EXPERIMENTS.md)
 
+## Real-data extension: completed and validated
+
+(Details: `docs/REAL_DATA_VALIDATION.md`; tests in `tests/test_gnss_*.py`,
+`tests/test_adjust_cli.py`, `tests/test_sd_dia_independent.py`.)
+
+- Pinned RTKLIB 2.4.3 b34 build (stock + output-precision patch) in a
+  gitignored `tools/`; patch verified formatting-only on real data
+- RINEX 2/3 header/epoch metadata, decompression into work dirs (sources
+  untouched), station overlap checks (tested on real GSI data)
+- RTKLIB `.pos` parsing; covariance reconstruction from signed square roots
+  verified against RTKLIB's own ENU output (≤ 3e-9 m); rounding-sensitivity
+  check
+- ECEF/geodetic/ENU and covariance rotations (analytical tests)
+- Antenna metadata precedence (`*` vs explicit) and height perturbations
+  verified end-to-end (GSI and Madrid)
+- Satellite screening (bad SP3 clock / unhealthy broadcast), SINEX reader
+- Repeatability calibration (unbiasedness tested), network assembly with
+  trivial-baseline rejection and loop misclosures (χ²(3) under H0 tested)
+- Truth-free `adjust` CLI for all six methods, ENU reporting, reference
+  comparison; datum invariance and ECEF-magnitude precision tested
+- Independent SD = 3D = likelihood-ratio verification (replaces reliance on
+  the tautological `|w*|^2 = 3T` check), including the correlated-covariance
+  case and null distributions
+- Real 4-station Madrid network processed and adjusted; Experiments A-D run
+
+## Real-data extension: results that are interpretation, not validation
+
+- Experiment A flags on unmodified data (no ground truth; corroborated only
+  by repeatability evidence)
+- The CEBR ≈ 11 mm East offset and VILL day-005/006 height anomalies
+  (unexplained)
+- Covariance calibration factor (non-stationary: 0.73 vs 5.17)
+
 ## Demonstration only (works, but not exhaustively validated)
 
 - Streamlit app (`app.py`): interactive layer over the tested API; the
@@ -80,7 +113,9 @@ recorded experiment.
 
 ## Future work (NOT implemented)
 
-- Real GNSS baseline datasets; RINEX preprocessing; ambiguity resolution
+- Cross-baseline (session) covariance from multi-baseline processing
+- Station-session bias hypotheses; component-wise variance estimation
+- Residual-corrected robust estimation (RCS)
 - Minimally constrained / free-network (inner-constraint) adjustment
 - Cross-correlated simultaneously observed baselines (session-level Q_l)
 - Recursive / sequential adjustment
@@ -91,11 +126,13 @@ recorded experiment.
 
 1. Static network; coordinates do not change during the campaign.
 2. Exactly one fixed station defines the datum (translations only).
-3. Baseline vectors are already estimated upstream (by a baseline
-   processor); this project starts from vectors + covariance blocks.
+3. Baseline vectors are estimated upstream: synthetically, or by RTKLIB
+   from real RINEX (one static solution per session; never per-epoch).
 4. Covariance information is available and, by default, correctly scaled
    (σ₀,prior² = 1); a mis-scaled scenario exists for sensitivity checks.
-5. Baselines are mutually uncorrelated (block-diagonal Q_l).
+5. Baselines are mutually uncorrelated (block-diagonal Q_l). On real data
+   this is an approximation: no cross-baseline covariance is available, and
+   none is invented.
 6. Synthetic experiments have exact ground truth; all detection metrics
    rely on it.
 7. Results depend materially on tuning parameters (α levels, Huber c,

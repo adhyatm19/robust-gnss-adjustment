@@ -149,6 +149,16 @@ code can instead subtract $\hat d_i=u_i^*\|\hat d_i\|$ and readjust; its
 coordinates equal those obtained by eliminating all three baseline
 components to floating-point precision.
 
+**Verification note (real-data extension).** In the code `statistic_3d` is
+*defined* as `|w*|^2/3`, so the recorded check `|w*|^2 = 3T` is an internal
+consistency check, not a verification. The substantive identity — SD
+`|w*|^2` equals the DIA group statistic and the likelihood-ratio statistic of
+a free 3D bias — is verified with independent code in
+`tests/test_sd_dia_independent.py`. It holds for block-diagonal `Q_l`; with
+cross-baseline covariance only the general form
+`(C'Pv)'(C'P Q_v P C)^{-1}(C'Pv)` (= the SD formula) remains correct. See
+`docs/REAL_DATA_MATH_NOTES.md`.
+
 ## 6. Robust M-estimation (IRLS)
 
 Instead of minimising $\sum_b v_b^\top P_b v_b$, a robust M-estimator

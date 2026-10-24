@@ -1,0 +1,358 @@
+{
+  "dataset": "madrid_2024",
+  "manifest": "configs/real_data/madrid_2024.yaml",
+  "retrieved_utc": "2026-10-24T06:12:14+00:00",
+  "total_bytes": 126276861,
+  "files": [
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/001/MADR00ESP_R_20240010000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/MADR00ESP_R_20240010000_01D_30S_MO.crx.gz",
+      "bytes": 1728444,
+      "sha256": "4743998af1c1ddeffa21bc0aff8c84cd8078eb4d161b2d5d2e9e31eec596b2e8",
+      "kind": "obs",
+      "station": "MADR",
+      "doy": 1
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/001/CEBR00ESP_R_20240010000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/CEBR00ESP_R_20240010000_01D_30S_MO.crx.gz",
+      "bytes": 4287049,
+      "sha256": "211895f8444ac638d9807117f381ccf619f64bf29aaf259dd2f7cbb1353c4127",
+      "kind": "obs",
+      "station": "CEBR",
+      "doy": 1
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/001/VILL00ESP_R_20240010000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/VILL00ESP_R_20240010000_01D_30S_MO.crx.gz",
+      "bytes": 4219804,
+      "sha256": "e471e6fc41bc4bf1b3c08d4e6acc770088f866bfd3d78b4c20a10a4f307a60b6",
+      "kind": "obs",
+      "station": "VILL",
+      "doy": 1
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/001/YEBE00ESP_R_20240010000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/YEBE00ESP_R_20240010000_01D_30S_MO.crx.gz",
+      "bytes": 2702955,
+      "sha256": "7bb6b8f9ed2fb7acba344b84a0cc36dc2d8e7570804a13be284e71f7b50b2bbc",
+      "kind": "obs",
+      "station": "YEBE",
+      "doy": 1
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/BRDC/2024/001/brdc0010.24n.gz",
+      "file": "data/raw/madrid_2024/nav/brdc0010.24n.gz",
+      "bytes": 59068,
+      "sha256": "35a4775a9c390d09a7ab1ff06ee9650fffcdad2b476abe2cb729424522d366f2",
+      "kind": "nav",
+      "doy": 1
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/002/MADR00ESP_R_20240020000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/MADR00ESP_R_20240020000_01D_30S_MO.crx.gz",
+      "bytes": 1762805,
+      "sha256": "2064b29f2d4cf4737ce0dfd24ed852a7ade40124dfb3241102bafd0a4a6ce640",
+      "kind": "obs",
+      "station": "MADR",
+      "doy": 2
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/002/CEBR00ESP_R_20240020000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/CEBR00ESP_R_20240020000_01D_30S_MO.crx.gz",
+      "bytes": 4334080,
+      "sha256": "d77a88bad2f2673280880aab84aa56032c8996aa91a5db0d43d6011e90f8974c",
+      "kind": "obs",
+      "station": "CEBR",
+      "doy": 2
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/002/VILL00ESP_R_20240020000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/VILL00ESP_R_20240020000_01D_30S_MO.crx.gz",
+      "bytes": 4270050,
+      "sha256": "1c3c10e8ac4907f3a43324cacf056e74874241443a40b9091f1139101efff62e",
+      "kind": "obs",
+      "station": "VILL",
+      "doy": 2
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/002/YEBE00ESP_R_20240020000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/YEBE00ESP_R_20240020000_01D_30S_MO.crx.gz",
+      "bytes": 2746827,
+      "sha256": "89227eb56dc2f4edfb25f98f6bdce0d44dcd5aac60524d7d4b2779437e66bbc9",
+      "kind": "obs",
+      "station": "YEBE",
+      "doy": 2
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/BRDC/2024/002/brdc0020.24n.gz",
+      "file": "data/raw/madrid_2024/nav/brdc0020.24n.gz",
+      "bytes": 58470,
+      "sha256": "32a07b7883190d50262b7d4d14bba354faec35a19ff5011a9953c58be3f47974",
+      "kind": "nav",
+      "doy": 2
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/003/MADR00ESP_R_20240030000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/MADR00ESP_R_20240030000_01D_30S_MO.crx.gz",
+      "bytes": 1727847,
+      "sha256": "14194f877613efb7b95fbbd36279fe0587e2659cba4eb76ef657360dca5878b9",
+      "kind": "obs",
+      "station": "MADR",
+      "doy": 3
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/003/CEBR00ESP_R_20240030000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/CEBR00ESP_R_20240030000_01D_30S_MO.crx.gz",
+      "bytes": 4387666,
+      "sha256": "d43bf476a05ed7276d0ffbdcf9fefe9844508d8347ad20076b15fc796497560c",
+      "kind": "obs",
+      "station": "CEBR",
+      "doy": 3
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/003/VILL00ESP_R_20240030000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/VILL00ESP_R_20240030000_01D_30S_MO.crx.gz",
+      "bytes": 4258814,
+      "sha256": "d8f94e38f23e08734970452ee84209196fccbc69bfb8543d0e510690fda2d4f5",
+      "kind": "obs",
+      "station": "VILL",
+      "doy": 3
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/003/YEBE00ESP_R_20240030000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/YEBE00ESP_R_20240030000_01D_30S_MO.crx.gz",
+      "bytes": 2739487,
+      "sha256": "7ac52b78a2f30edebbec07350b89959958e93be36ea2115ccf40d82bcffcc985",
+      "kind": "obs",
+      "station": "YEBE",
+      "doy": 3
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/BRDC/2024/003/brdc0030.24n.gz",
+      "file": "data/raw/madrid_2024/nav/brdc0030.24n.gz",
+      "bytes": 58554,
+      "sha256": "55579240408fca482a4d51983fec679b25b8cff7ec49c5a8221e3d97b531b7bf",
+      "kind": "nav",
+      "doy": 3
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/004/MADR00ESP_R_20240040000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/MADR00ESP_R_20240040000_01D_30S_MO.crx.gz",
+      "bytes": 1734828,
+      "sha256": "f01696e7eb683c64d5f8ed442c07dccada86c68dcd7fb9d074bdee1b590cc9a0",
+      "kind": "obs",
+      "station": "MADR",
+      "doy": 4
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/004/CEBR00ESP_R_20240040000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/CEBR00ESP_R_20240040000_01D_30S_MO.crx.gz",
+      "bytes": 4359272,
+      "sha256": "8137d6c02c56ee7d5bf38d471d7ad83fa13ea8ef7132d7d2ac1eb398e158ce57",
+      "kind": "obs",
+      "station": "CEBR",
+      "doy": 4
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/004/VILL00ESP_R_20240040000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/VILL00ESP_R_20240040000_01D_30S_MO.crx.gz",
+      "bytes": 4250687,
+      "sha256": "0558f58a27578241926c134847073b0811e166b7750c638fef61a3cb8457f863",
+      "kind": "obs",
+      "station": "VILL",
+      "doy": 4
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/004/YEBE00ESP_R_20240040000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/YEBE00ESP_R_20240040000_01D_30S_MO.crx.gz",
+      "bytes": 2706459,
+      "sha256": "80fbb7be3985c622e997e4635d6c6d0a067d2db28cb2f11882de750f960ab4ca",
+      "kind": "obs",
+      "station": "YEBE",
+      "doy": 4
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/BRDC/2024/004/brdc0040.24n.gz",
+      "file": "data/raw/madrid_2024/nav/brdc0040.24n.gz",
+      "bytes": 58378,
+      "sha256": "90af5e67a4275bcff88eab68a27f6082408e70f1eb41e704c718a49319957679",
+      "kind": "nav",
+      "doy": 4
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/005/MADR00ESP_R_20240050000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/MADR00ESP_R_20240050000_01D_30S_MO.crx.gz",
+      "bytes": 1721559,
+      "sha256": "d00dc6668f40e21f4ba730074e044007eac8932439b73fc267b45d5d59d7851d",
+      "kind": "obs",
+      "station": "MADR",
+      "doy": 5
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/005/CEBR00ESP_R_20240050000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/CEBR00ESP_R_20240050000_01D_30S_MO.crx.gz",
+      "bytes": 4372328,
+      "sha256": "5e75a6c7582284cea9fbb5f5ac26519db8bc7c6f409aa8a8a88c02ec270f9414",
+      "kind": "obs",
+      "station": "CEBR",
+      "doy": 5
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/005/VILL00ESP_R_20240050000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/VILL00ESP_R_20240050000_01D_30S_MO.crx.gz",
+      "bytes": 4284532,
+      "sha256": "d0cfa3f1c552ad096b30f8f24d4c6d94aa8cd9a495adf9ab4537bea76e87ca6a",
+      "kind": "obs",
+      "station": "VILL",
+      "doy": 5
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/005/YEBE00ESP_R_20240050000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/YEBE00ESP_R_20240050000_01D_30S_MO.crx.gz",
+      "bytes": 2736812,
+      "sha256": "007f7d3247632cad1dcf366c03a3d707fe1f89f510e92daf91e071a9ab16afae",
+      "kind": "obs",
+      "station": "YEBE",
+      "doy": 5
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/BRDC/2024/005/brdc0050.24n.gz",
+      "file": "data/raw/madrid_2024/nav/brdc0050.24n.gz",
+      "bytes": 57506,
+      "sha256": "c17965b33867774abe57c70eb9ca4fbafb759f70ed18233f776a36e34d1aac0f",
+      "kind": "nav",
+      "doy": 5
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/006/MADR00ESP_R_20240060000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/MADR00ESP_R_20240060000_01D_30S_MO.crx.gz",
+      "bytes": 1712260,
+      "sha256": "e121e8a47e175f40955390ed24a034fce843d111dd36c5fa30f6706d9367a907",
+      "kind": "obs",
+      "station": "MADR",
+      "doy": 6
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/006/CEBR00ESP_R_20240060000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/CEBR00ESP_R_20240060000_01D_30S_MO.crx.gz",
+      "bytes": 4377635,
+      "sha256": "6dc7638eb7ff184bf9594ffd210d1f407d0ff91300c180b53455566e8f63e4fd",
+      "kind": "obs",
+      "station": "CEBR",
+      "doy": 6
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/006/VILL00ESP_R_20240060000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/VILL00ESP_R_20240060000_01D_30S_MO.crx.gz",
+      "bytes": 4307640,
+      "sha256": "7a78d2b479c6be8ee89f8b5e1a92de7d6e77c14a86d22ac8a08f83089a93c4be",
+      "kind": "obs",
+      "station": "VILL",
+      "doy": 6
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/obs/2024/006/YEBE00ESP_R_20240060000_01D_30S_MO.crx.gz",
+      "file": "data/raw/madrid_2024/obs/YEBE00ESP_R_20240060000_01D_30S_MO.crx.gz",
+      "bytes": 2738822,
+      "sha256": "e51d3a6be996484a46e46979897b6442f73402fbed431a5637c88431f1e075d2",
+      "kind": "obs",
+      "station": "YEBE",
+      "doy": 6
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/BRDC/2024/006/brdc0060.24n.gz",
+      "file": "data/raw/madrid_2024/nav/brdc0060.24n.gz",
+      "bytes": 56705,
+      "sha256": "11e8632b45f68928d65f3b20ab1a6063001a6cd5f7c7899fc2acdcbc3186c18a",
+      "kind": "nav",
+      "doy": 6
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/products/2295/IGS0OPSFIN_20233650000_01D_15M_ORB.SP3.gz",
+      "file": "data/raw/madrid_2024/orbit/IGS0OPSFIN_20233650000_01D_15M_ORB.SP3.gz",
+      "bytes": 99388,
+      "sha256": "86a1941bb0edb958e67255b9d1430be40ee9bd8728063278e45cf57fa85b71ed",
+      "kind": "orbit",
+      "doy": 365,
+      "year": 2023
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/products/2295/IGS0OPSFIN_20240010000_01D_15M_ORB.SP3.gz",
+      "file": "data/raw/madrid_2024/orbit/IGS0OPSFIN_20240010000_01D_15M_ORB.SP3.gz",
+      "bytes": 102609,
+      "sha256": "26f16fa5f97cce851948fa88711aed47f60ee2e4ddfe36f0e98b1076e79fbe38",
+      "kind": "orbit",
+      "doy": 1,
+      "year": 2024
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/products/2295/IGS0OPSFIN_20240020000_01D_15M_ORB.SP3.gz",
+      "file": "data/raw/madrid_2024/orbit/IGS0OPSFIN_20240020000_01D_15M_ORB.SP3.gz",
+      "bytes": 103060,
+      "sha256": "bc23bb524595cbaecd295dd03816a9caf852cdaeb15a79edd6899beccaceb32a",
+      "kind": "orbit",
+      "doy": 2,
+      "year": 2024
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/products/2295/IGS0OPSFIN_20240030000_01D_15M_ORB.SP3.gz",
+      "file": "data/raw/madrid_2024/orbit/IGS0OPSFIN_20240030000_01D_15M_ORB.SP3.gz",
+      "bytes": 103051,
+      "sha256": "42d988af68fcce1eda621d3f89022644120a74ebf13914a3f7f1ad7f0526773b",
+      "kind": "orbit",
+      "doy": 3,
+      "year": 2024
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/products/2295/IGS0OPSFIN_20240040000_01D_15M_ORB.SP3.gz",
+      "file": "data/raw/madrid_2024/orbit/IGS0OPSFIN_20240040000_01D_15M_ORB.SP3.gz",
+      "bytes": 102794,
+      "sha256": "798447aec712e7173e536bee83f02b8643ca7bdf797d59143615623e663d6624",
+      "kind": "orbit",
+      "doy": 4,
+      "year": 2024
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/products/2295/IGS0OPSFIN_20240050000_01D_15M_ORB.SP3.gz",
+      "file": "data/raw/madrid_2024/orbit/IGS0OPSFIN_20240050000_01D_15M_ORB.SP3.gz",
+      "bytes": 97312,
+      "sha256": "7735dcd71e890e054ac821a14c8fb7839af8b58f6cc044f314eb1e355369e279",
+      "kind": "orbit",
+      "doy": 5,
+      "year": 2024
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/products/2295/IGS0OPSFIN_20240060000_01D_15M_ORB.SP3.gz",
+      "file": "data/raw/madrid_2024/orbit/IGS0OPSFIN_20240060000_01D_15M_ORB.SP3.gz",
+      "bytes": 99802,
+      "sha256": "1250b07853302aca0285ea3041f09a748a60e79859c891d4bbe532e89065353f",
+      "kind": "orbit",
+      "doy": 6,
+      "year": 2024
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/products/2296/IGS0OPSFIN_20240070000_01D_15M_ORB.SP3.gz",
+      "file": "data/raw/madrid_2024/orbit/IGS0OPSFIN_20240070000_01D_15M_ORB.SP3.gz",
+      "bytes": 99619,
+      "sha256": "8c96c0fd4db753f7453837ebced2ff7e6c63a456f9079d8deb935db23e195122",
+      "kind": "orbit",
+      "doy": 7,
+      "year": 2024
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/IGS/station/general/igs20_2287.atx",
+      "file": "data/raw/madrid_2024/products/igs20_2287.atx",
+      "bytes": 39678642,
+      "sha256": "355b5bc34720697328626e8432b0a11d67ca0422c3d39cc5406fc033d61ebeb6",
+      "kind": "antex"
+    },
+    {
+      "url": "https://igs.bkg.bund.de/root_ftp/EUREF/products/2295/EUR0OPSSNX_20233650000_07D_07D_SOL.SNX.gz",
+      "file": "data/raw/madrid_2024/products/EUR0OPSSNX_20233650000_07D_07D_SOL.SNX.gz",
+      "bytes": 6973241,
+      "sha256": "1f38c25b2586edd7aaf1864d1bb60d762abce7ef887022b03c333287c23c83b6",
+      "kind": "reference_sinex"
+    }
+  ]
+}

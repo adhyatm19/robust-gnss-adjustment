@@ -1,0 +1,249 @@
+{
+  "local_frame": "ENU (ECEF rotated at each station)",
+  "datum_station": "MADR",
+  "n_stations": 4,
+  "n_baselines": 9,
+  "n_observations": 27,
+  "n_parameters": 9,
+  "rank_A": 9,
+  "degrees_of_freedom": 18,
+  "condition_number_N": 28.829636578229156,
+  "connected": true,
+  "sigma0_prior_sq": 1.0,
+  "settings": {
+    "dia": {
+      "alpha_global": 0.05,
+      "alpha_local": 0.001,
+      "alpha_baseline": 0.001,
+      "bonferroni": false,
+      "sigma0_prior_sq": 1.0,
+      "adaptation": "reject",
+      "inflation_factor": 100.0,
+      "max_adaptations": 10,
+      "min_redundancy": 1
+    },
+    "huber": {
+      "method": "huber",
+      "huber_c": 1.5,
+      "hampel_a": 1.5,
+      "hampel_b": 3.5,
+      "hampel_c": 8.0,
+      "scale": "prior",
+      "sigma0_prior_sq": 1.0,
+      "max_iterations": 50,
+      "coord_tol_m": 1e-06,
+      "weight_tol": 0.0001,
+      "min_scale": 0.001,
+      "downweight_threshold": 0.5,
+      "zero_weight_floor": 1e-06
+    },
+    "hampel": {
+      "method": "hampel",
+      "huber_c": 1.5,
+      "hampel_a": 1.5,
+      "hampel_b": 3.5,
+      "hampel_c": 8.0,
+      "scale": "prior",
+      "sigma0_prior_sq": 1.0,
+      "max_iterations": 50,
+      "coord_tol_m": 1e-06,
+      "weight_tol": 0.0001,
+      "min_scale": 0.001,
+      "downweight_threshold": 0.5,
+      "zero_weight_floor": 1e-06
+    },
+    "sd": {
+      "alpha_global": 0.05,
+      "alpha_local": 0.001,
+      "bonferroni": false,
+      "sigma0_prior_sq": 1.0,
+      "adaptation": "reject",
+      "max_adaptations": 10,
+      "min_redundancy": 1
+    }
+  },
+  "methods": {
+    "WLS": {
+      "global_statistic": 79.29032287900259,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": false,
+      "variance_factor": 4.405017937722366,
+      "flagged_baselines": [],
+      "iterations": 1,
+      "converged": true
+    },
+    "DIA-reject": {
+      "global_statistic": 20.868821490548996,
+      "global_critical": 21.02606981748307,
+      "global_dof": 12,
+      "global_passed": true,
+      "variance_factor": 1.7390684575457496,
+      "flagged_baselines": [
+        8,
+        9
+      ],
+      "iterations": 3,
+      "converged": true,
+      "status": "adapted"
+    },
+    "DIA-inflate": {
+      "global_statistic": 21.84929842372599,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": true,
+      "variance_factor": 1.2138499124292217,
+      "flagged_baselines": [
+        8,
+        9
+      ],
+      "iterations": 3,
+      "converged": true,
+      "status": "adapted"
+    },
+    "Huber": {
+      "global_statistic": 54.099250545906735,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": false,
+      "variance_factor": 3.005513919217041,
+      "flagged_baselines": [
+        8
+      ],
+      "iterations": 15,
+      "converged": true,
+      "weights": {
+        "1": 0.9016380217042426,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 0.717219943866125,
+        "5": 1.0,
+        "6": 1.0,
+        "7": 1.0,
+        "8": 0.4222948203193468,
+        "9": 0.8607170992030425
+      }
+    },
+    "Hampel": {
+      "global_statistic": 53.72474590885085,
+      "global_critical": 28.869299430392623,
+      "global_dof": 18,
+      "global_passed": false,
+      "variance_factor": 2.9847081060472695,
+      "flagged_baselines": [
+        8
+      ],
+      "iterations": 20,
+      "converged": true,
+      "weights": {
+        "1": 0.8956440249164302,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 0.7255299838972791,
+        "5": 1.0,
+        "6": 1.0,
+        "7": 1.0,
+        "8": 0.41234970110153435,
+        "9": 0.8549225398936532
+      }
+    },
+    "SD-reject": {
+      "global_statistic": 20.868821490548996,
+      "global_critical": 21.02606981748307,
+      "global_dof": 12,
+      "global_passed": true,
+      "variance_factor": 1.7390684575457496,
+      "flagged_baselines": [
+        8,
+        9
+      ],
+      "iterations": 3,
+      "converged": true,
+      "status": "adapted"
+    }
+  },
+  "sd_local_identified": 8,
+  "sd_snooping_audit": [
+    {
+      "iteration": 0,
+      "global_statistic": 79.29032287900259,
+      "global_critical": 28.869299430392623,
+      "identified": 8,
+      "statistic": 6.307533429973576,
+      "critical": 4.0331422236561565,
+      "action": "reject:baseline_8"
+    },
+    {
+      "iteration": 1,
+      "global_statistic": 39.505344251363695,
+      "global_critical": 24.995790139728616,
+      "identified": 9,
+      "statistic": 4.317004254544611,
+      "critical": 4.0331422236561565,
+      "action": "reject:baseline_9"
+    },
+    {
+      "iteration": 2,
+      "global_statistic": 20.868821490548996,
+      "global_critical": 21.02606981748307,
+      "identified": null,
+      "statistic": null,
+      "critical": null,
+      "action": "stopped:global_test_passed"
+    }
+  ],
+  "dia_audit": {
+    "DIA-reject": [
+      {
+        "iteration": 0,
+        "global_statistic": 79.29032287900259,
+        "global_critical": 28.869299430392623,
+        "identified": 8,
+        "statistic": 39.78497797023436,
+        "action": "reject:baseline_8"
+      },
+      {
+        "iteration": 1,
+        "global_statistic": 39.505344251363695,
+        "global_critical": 24.995790139728616,
+        "identified": 9,
+        "statistic": 18.636525733756255,
+        "action": "reject:baseline_9"
+      },
+      {
+        "iteration": 2,
+        "global_statistic": 20.868821490548996,
+        "global_critical": 21.02606981748307,
+        "identified": null,
+        "statistic": null,
+        "action": "stopped:global_test_passed"
+      }
+    ],
+    "DIA-inflate": [
+      {
+        "iteration": 0,
+        "global_statistic": 79.29032287900259,
+        "global_critical": 28.869299430392623,
+        "identified": 8,
+        "statistic": 39.78497797023436,
+        "action": "inflate:baseline_8:x100"
+      },
+      {
+        "iteration": 1,
+        "global_statistic": 40.064851552773,
+        "global_critical": 28.869299430392623,
+        "identified": 9,
+        "statistic": 18.477763429382833,
+        "action": "inflate:baseline_9:x100"
+      },
+      {
+        "iteration": 2,
+        "global_statistic": 21.84929842372599,
+        "global_critical": 28.869299430392623,
+        "identified": null,
+        "statistic": null,
+        "action": "stopped:global_test_passed"
+      }
+    ]
+  }
+}

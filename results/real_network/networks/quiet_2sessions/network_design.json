@@ -1,0 +1,93 @@
+{
+ "sessions": {
+  "2024001": [
+   1,
+   2,
+   3
+  ],
+  "2024002": [
+   4,
+   5,
+   6
+  ]
+ },
+ "redundancy": 9,
+ "n_stations": 4,
+ "n_baselines": 6,
+ "datum_station": "MADR",
+ "cross_baseline_covariance": "not available from single-baseline processing; block-diagonal model used (limitation)",
+ "loops": [
+  {
+   "baselines": [
+    3,
+    6,
+    2
+   ],
+   "signs": [
+    1,
+    -1,
+    1
+   ],
+   "sessions": [
+    "2024001",
+    "2024002",
+    "2024001"
+   ],
+   "trivial": false,
+   "misclosure_mm": [
+    3.92741896212101,
+    2.7273400046397,
+    3.875180147588253
+   ],
+   "chi2_3": 1.068923152347485,
+   "length_km": 198.1138776775942
+  },
+  {
+   "baselines": [
+    4,
+    2,
+    1
+   ],
+   "signs": [
+    1,
+    -1,
+    1
+   ],
+   "sessions": [
+    "2024002",
+    "2024001",
+    "2024001"
+   ],
+   "trivial": false,
+   "misclosure_mm": [
+    -3.0247801914811134,
+    -4.209817037917674,
+    -0.613880343735218
+   ],
+   "chi2_3": 0.894160453229789,
+   "length_km": 70.99744702261226
+  },
+  {
+   "baselines": [
+    5,
+    1
+   ],
+   "signs": [
+    1,
+    -1
+   ],
+   "sessions": [
+    "2024002",
+    "2024001"
+   ],
+   "trivial": false,
+   "misclosure_mm": [
+    -0.5658995360136032,
+    -1.6219000099226832,
+    1.6081002540886402
+   ],
+   "chi2_3": 0.6289154260362342,
+   "length_km": 20.76997645063366
+  }
+ ]
+}

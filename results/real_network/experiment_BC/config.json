@@ -1,0 +1,32 @@
+{
+ "trials_per_cell": 40,
+ "seed": 20240101,
+ "magnitudes_mm": [
+  5,
+  10,
+  15,
+  20,
+  30,
+  50,
+  80
+ ],
+ "direction_modes": [
+  "random",
+  "up",
+  "horizontal"
+ ],
+ "n_outliers": [
+  1,
+  2
+ ],
+ "alpha_local": 0.001,
+ "methods": [
+  "WLS",
+  "DIA-reject",
+  "DIA-inflate",
+  "Huber",
+  "Hampel",
+  "SD-reject"
+ ],
+ "note": "controlled injections into real-data-derived baselines"
+}

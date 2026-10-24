@@ -22,6 +22,7 @@ dependencies = [
 
 [project.optional-dependencies]
 app = ["streamlit>=1.30"]
+rinex = ["hatanaka>=2.8"]     # Hatanaka-compressed RINEX (real-data pipeline)
 dev = ["pytest>=7.4"]
 
 [tool.setuptools.packages.find]

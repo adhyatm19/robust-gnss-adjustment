@@ -6,15 +6,18 @@ A Python research prototype that adjusts a redundant 3D GNSS baseline network an
 benchmarks how classical and robust estimation methods behave when observations
 are contaminated by gross errors and non-Gaussian noise.
 
-> **Scope statement (read this first).** This is a *synthetic, baseline-level*
-> research and benchmarking prototype. Inputs are baseline vectors
-> (`ΔX, ΔY, ΔZ`) with full 3×3 covariance blocks — the kind of quantities a
-> GNSS baseline processor produces *after* carrier-phase processing. It is
-> **not** a raw RINEX processor, **not** a carrier-phase ambiguity-resolution
-> engine, **not** a replacement for commercial GNSS software, and it is **not
-> yet integrated** into any production or indigenous GNSS software. It is an
-> independent framework for validating adjustment and outlier-handling methods
-> before such integration.
+> **Scope statement (read this first).** This is a *baseline-level*
+> research and benchmarking prototype. The adjustment works on baseline
+> vectors (`ΔX, ΔY, ΔZ`) with full 3×3 covariance blocks. Those come either
+> from the synthetic generator or — since the real-data extension — from
+> **real RINEX observations processed by the external, pinned RTKLIB
+> `rnx2rtkp`** (carrier-phase processing, ambiguities, orbits and atmosphere
+> are delegated to RTKLIB, never re-implemented here). It is **not** a GNSS
+> processor itself, **not** a replacement for commercial or scientific GNSS
+> software, and **not** integrated into any production system. Real-data
+> results, their verification and limitations:
+> [docs/REAL_DATA_VALIDATION.md](docs/REAL_DATA_VALIDATION.md); summary for
+> researchers: [docs/RESEARCH_HANDOFF.md](docs/RESEARCH_HANDOFF.md).
 
 ---
 
@@ -172,8 +175,9 @@ produced by running the code** (see `scripts/generate_demo_results.py`).
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install -e ".[app,dev]"          # package + streamlit + pytest
-pytest                                # 49 deterministic tests
+pip install -e ".[app,rinex,dev]"    # package + streamlit + hatanaka + pytest
+pytest                                # 101 deterministic tests (RTKLIB ones skip if not built)
+scripts/build_rtklib.sh               # optional: pinned RTKLIB into tools/ (git, gcc, make)
 ```
 
 Requires Python ≥ 3.11. Core dependencies: NumPy, SciPy, Pandas, Matplotlib,
@@ -204,6 +208,16 @@ python scripts/verify_sd_equivalence.py --networks 100
 python scripts/benchmark_sd_magnitude.py --runs 50
 python scripts/benchmark_sd_direction.py --runs 200
 python scripts/benchmark_sd_antenna_height.py --runs 100
+```
+
+Real networks (any `stations.csv` / `baselines.csv` / `covariance_blocks.csv`
+directory, no ground truth needed):
+
+```bash
+python -m gnss_adjust adjust --network results/real_network/networks/main_formal \
+    --reference results/real_network/networks/main_formal/reference_coordinates.csv \
+    --output results/real_network/experiment_A/main_formal
+scripts/reproduce_real_data.sh python   # full RINEX -> results chain (downloads 126 MB)
 ```
 
 Scenarios: `clean`, `single-small-outlier`, `single-outlier`,
@@ -250,8 +264,13 @@ robust-gnss-adjustment/
 │   ├── benchmark.py           # scenarios, Monte Carlo, sweeps
 │   ├── plotting.py            # matplotlib figures
 │   ├── io.py                  # CSV/JSON/YAML I/O & validation
-│   └── cli.py                 # argparse CLI
-├── tests/                     # 49 deterministic pytest tests
+│   ├── network_report.py      # truth-free adjustment of a given network (all methods)
+│   ├── gnss/                  # RINEX metadata, RTKLIB runner, .pos parser, frames,
+│   │                          # SINEX, satellite screening, calibration, network assembly
+│   └── cli.py                 # argparse CLI (demo, benchmark, adjust)
+├── tests/                     # 101 deterministic pytest tests (+ real GSI test data)
+├── third_party/rtklib/        # output-precision patch for the pinned RTKLIB
+├── configs/real_data/         # dataset manifest + RTKLIB processing configuration
 ├── examples/                  # CSV input format examples
 ├── scripts/                   # common demos plus SD case studies/benchmarks
 └── docs/                      # MATHEMATICS, EXPERIMENTS, INTERVIEW_NOTES, PROJECT_STATUS
@@ -267,11 +286,13 @@ and graph connectivity.
 
 ## 11. Limitations
 
-* Baseline vectors are treated as *given* — no raw observation processing,
-  no ambiguity resolution, no troposphere/ionosphere modelling.
-* Baselines are assumed mutually uncorrelated (block-diagonal `Q_l`);
-  simultaneously observed sessions violate this. The antenna-height-style SD
-  experiment is therefore a preliminary synthetic session proxy.
+* Raw observations are processed only through external RTKLIB; RTKLIB's
+  formal covariances are conditional and were found optimistic in height
+  (float) and 10–25× optimistic in σ (fixed) on real data.
+* Baselines are assumed mutually uncorrelated (block-diagonal `Q_l`):
+  single-baseline processing provides no cross-baseline covariance, and
+  simultaneously observed baselines violate the assumption.
+* Real-data validation covers one 4-station network over 6 days (GPS only).
 * Static network, single fixed-station datum (no free-network /
   minimally-constrained variants yet).
 * Synthetic ground truth only; tuning constants and significance levels
@@ -279,8 +300,8 @@ and graph connectivity.
 
 ## 12. Future work
 
-Real GNSS baseline datasets; RINEX preprocessing; ambiguity resolution;
-minimally constrained and free-network (inner-constraint) adjustment;
+Larger real networks and other processors; station-session bias hypotheses;
+component-wise variance estimation; minimally constrained and free-network (inner-constraint) adjustment;
 correlated simultaneously-observed baselines; recursive/sequential
 adjustment; multiple-outlier SD hypotheses; integration
 with existing GNSS processing software.

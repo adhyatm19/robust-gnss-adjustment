@@ -1,0 +1,90 @@
+{
+  "binaries": {
+    "stock": {
+      "path": "tools/rtklib/bin/rnx2rtkp-stock",
+      "sha256": "b802098e1d72154f3826432c134e1aaac1461ece065abb51b9480c2a8cb5ca57",
+      "variant": "rnx2rtkp-stock",
+      "build_info": {
+        "rtklib_url": "https://github.com/tomojitakasu/RTKLIB",
+        "rtklib_tag": "v2.4.3-b34",
+        "rtklib_commit": "180043ee24b6d2b168f98b64be15f69d50046b1a",
+        "patch_file": "third_party/rtklib/rnx2rtkp-output-precision.patch",
+        "patch_sha256": "9c9af60e6a249e4af2ecfd925ca60bcc0a1fdc4f2f71e90bfe3b82aae8551746",
+        "make_overrides": "LDLIBS=-lm -lrt",
+        "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "stock_sha256": "b802098e1d72154f3826432c134e1aaac1461ece065abb51b9480c2a8cb5ca57",
+        "hp_sha256": "bec3186a72d5ba4467f07f568a95cdaa5060a72f3016aaab01c1204a75c67fe7"
+      }
+    },
+    "hp": {
+      "path": "tools/rtklib/bin/rnx2rtkp-hp",
+      "sha256": "bec3186a72d5ba4467f07f568a95cdaa5060a72f3016aaab01c1204a75c67fe7",
+      "variant": "rnx2rtkp-hp",
+      "build_info": {
+        "rtklib_url": "https://github.com/tomojitakasu/RTKLIB",
+        "rtklib_tag": "v2.4.3-b34",
+        "rtklib_commit": "180043ee24b6d2b168f98b64be15f69d50046b1a",
+        "patch_file": "third_party/rtklib/rnx2rtkp-output-precision.patch",
+        "patch_sha256": "9c9af60e6a249e4af2ecfd925ca60bcc0a1fdc4f2f71e90bfe3b82aae8551746",
+        "make_overrides": "LDLIBS=-lm -lrt",
+        "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+        "stock_sha256": "b802098e1d72154f3826432c134e1aaac1461ece065abb51b9480c2a8cb5ca57",
+        "hp_sha256": "bec3186a72d5ba4467f07f568a95cdaa5060a72f3016aaab01c1204a75c67fe7"
+      }
+    }
+  },
+  "base_xyz": [
+    -3976219.5082,
+    3382372.5671,
+    3652512.9849
+  ],
+  "configs": {
+    "static_combined": {
+      "epochs": 115,
+      "enu_epochs": 0,
+      "metadata_identical": true,
+      "max_abs_field_difference_m": 4.9906099999999986e-05,
+      "half_stock_resolution_m": 5e-05,
+      "note": "ENU output suppressed by RTKLIB in combined mode (unset smoothed base position); XYZ compared only"
+    },
+    "static_forward": {
+      "epochs": 115,
+      "enu_epochs": 115,
+      "metadata_identical": true,
+      "max_abs_field_difference_m": 4.9983299999999966e-05,
+      "half_stock_resolution_m": 5e-05,
+      "max_abs_enu_field_error_hp_reconstruction_m": 7.988982828684328e-10,
+      "max_abs_enu_vector_error_hp_m": 1.1228667062823661e-07
+    },
+    "kinematic_forward": {
+      "epochs": 115,
+      "enu_epochs": 115,
+      "metadata_identical": true,
+      "max_abs_field_difference_m": 5.000000010113581e-05,
+      "half_stock_resolution_m": 5e-05,
+      "max_abs_enu_field_error_hp_reconstruction_m": 3.2140737888942386e-09,
+      "max_abs_enu_vector_error_hp_m": 1.0869507605093531e-07
+    },
+    "static_l1_forward": {
+      "epochs": 115,
+      "enu_epochs": 115,
+      "metadata_identical": true,
+      "max_abs_field_difference_m": 4.9999915063381195e-05,
+      "half_stock_resolution_m": 5e-05,
+      "max_abs_enu_field_error_hp_reconstruction_m": 6.990526536402924e-10,
+      "max_abs_enu_vector_error_hp_m": 1.0192161425948143e-07
+    }
+  },
+  "stock_reconstruction": {
+    "epochs": 345,
+    "max_rel_sigma_error": 0.2173665360669903,
+    "median_rel_sigma_error": 0.009191259081084868,
+    "max_abs_correlation_error": 0.33567584393224825,
+    "fraction_epochs_with_correlation_sign_flip": 0.04927536231884058,
+    "fraction_epochs_stock_cov_not_pd": 0.0
+  },
+  "verdict": {
+    "patch_changes_formatting_only": true,
+    "hp_reconstruction_matches_rtklib_enu": true
+  }
+}

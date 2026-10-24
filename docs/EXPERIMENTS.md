@@ -1,5 +1,9 @@
 # Experiment Results
 
+> These are the **synthetic** experiments. Experiments on real RINEX data
+> (Madrid EPN network, 2024) are reported separately in
+> [REAL_DATA_VALIDATION.md](REAL_DATA_VALIDATION.md).
+
 All numbers below were produced by running the implementation — none are
 hand-edited. Regenerate everything with:
 

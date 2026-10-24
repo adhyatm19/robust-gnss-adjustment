@@ -1,0 +1,10 @@
+baseline_id,session,from,to,strategy,status,fix_fraction,length_m,covariance_source,covariance_scale,covariance_label,rounding_sensitive
+1,2024004,MADR,CEBR,iflc_float,float,0.0,10384.984199058183,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
+2,2024004,MADR,VILL,iflc_float,float,0.0,25311.80541303534,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
+3,2024004,VILL,YEBE,iflc_float,float,0.0,73765.67906394874,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
+4,2024005,CEBR,VILL,iflc_float,float,0.0,35300.654049566954,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
+5,2024005,MADR,CEBR,iflc_float,float,0.0,10384.989442940101,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
+6,2024005,MADR,YEBE,iflc_float,float,0.0,99036.38317307293,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
+7,2024006,CEBR,YEBE,iflc_float,float,0.0,108757.47004918256,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
+8,2024006,CEBR,VILL,iflc_float,float,0.0,35300.65546194512,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
+9,2024006,MADR,VILL,iflc_float,float,0.0,25311.80572268713,rtklib_formal_float32,0.7333070713513926,formal x k2 (days 001-003 repeatability),False
